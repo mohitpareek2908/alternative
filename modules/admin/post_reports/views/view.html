@@ -1,0 +1,77 @@
+<%
+	var result			= (typeof result !== typeof undefined && result)	?	result					:{};
+%>
+
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.post_reports.post_reports_details'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+					<!-- Only For Mobile View-->
+					<ul class="header-dropdown m-r--5 visible-xs">
+						<li class="dropdown">
+							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<i class="material-icons">more_vert</i>
+							</a>
+							<ul class="dropdown-menu pull-right m-w-200">
+								
+								<li>
+									<a href="<%=admin_list_url%>" >
+										<i class="material-icons">keyboard_backspace</i><%= __("admin.system.back"); %>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.post_reports.user_name'); %></th>
+							<td><%=(typeof result.user_name !== typeof undefined)	? result.user_name	: 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.post_reports.post_title'); %></th>
+							<td><%=(typeof result.post_title !== typeof undefined)	? result.post_title	: 'N/A';%></td>
+						</tr>
+
+						
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.post_reports.comment'); %></th>
+							<td><%=(typeof result.comment !== typeof undefined)	? result.comment	: 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.system.status'); %></th>
+							<%
+								var status 	=	(result.status && result.status == ACTIVE) ? '<span class="label label-success m-r-5">'+__("admin.system.active")+'</span>': '<span class="label label-danger m-r-5">'+__("admin.system.inactive")+'</span>';
+							%>
+							<td><%- status%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'';%>"></span>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- User KYC Detail -->
+
+
+	
+	

@@ -1,0 +1,243 @@
+
+
+        <section class="banner-one" id="home">
+
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/banner-shape-1-1.png" class="banner-one__bg-shape-1" alt="">
+            <div class="banner-one__bg" style="background-image: url(<%=WEBSITE_IMG_URL%>/resources/banner-image-1-1.jpg);">
+
+            </div><!-- /.banner-one__bg -->
+            <div class="container">
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal" class="banner-one__video"><img src="<%=WEBSITE_IMG_URL%>/resources/play-icon.svg" alt="image"></a><!-- /.banner-one__video -->
+                <div class="banner-one__moc">
+                    <img src="<%=WEBSITE_IMG_URL%>/resources/banner-moc-1-1.png" class="wow fadeInUp"
+                        data-wow-duration="1500ms" alt="">
+                </div><!-- /.banner-one__moc -->
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="banner-one__content">
+						<% if(home_banner_data && Object.keys(home_banner_data).length > 0){ %>
+				<%- home_banner_data.description %>
+			<% }else{ %>
+				<%= __("front.global.no_record_found"); %>
+			<% 	} %> 
+                        
+                          	
+							
+                            <!-- /.thm-btn banner-one__btn -->
+                        </div><!-- /.banner-one__content -->
+                    </div><!-- /.col-lg-7 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.banner-one -->
+
+        <section class="service-one" id="features">
+            <div class="container">
+				<% if(home_key_information_data && Object.keys(home_key_information_data).length > 0){ %>
+					<%- home_key_information_data.description %>
+				<% }else{ %>
+					<%= __("front.global.no_record_found"); %>
+				<% 	} %>  
+            </div><!-- /.container -->
+        </section><!-- /.service-one -->
+
+        <section class="cta-one" id="creative">
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/cta-1-shape-1.png" class="cta-one__bg-shape-1" alt="">
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/cta-1-shape-2.png" class="cta-one__bg-shape-2" alt="">
+            <div class="container">
+                <div class="cta-one__moc wow fadeInLeft" data-wow-duration="1500ms">
+                    <img src="<%=WEBSITE_IMG_URL%>/resources/cta-1-moc-1.png" class="cta-one__moc-img" alt="">
+                </div><!-- /.cta-one__moc -->
+                <div class="row justify-content-end">
+                    <div class="col-lg-6">
+                        <div class="cta-one__content">
+                          <% if(home_best_application_data && Object.keys(home_best_application_data).length > 0){ %>
+								<%- home_best_application_data.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %>  
+                            <!-- /.thm-btn cta-one__btn -->
+                        </div><!-- /.cta-one__content -->
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.cta-one -->
+
+              <section class="testimonials-one sliderpostersection">
+            <div class="container">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+	<% home_post_slider_data.forEach(function (item, index) { 
+								var postSliderImg = SLIDERS_URL+"/"+item.image;
+								%>
+      <div class="swiper-slide">
+             <div class="row ">
+                    <div class="col-xl-6">
+                                       <div class="testimonials-one__image">
+                                            <img src="<%= postSliderImg %>" alt="Awesome Image" />
+                                        </div><!-- /.testimonials-one__image -->
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-xl-6 d-flex">
+                        <div class="my-auto"> <div class="block-title text-left">
+       <h3><%- item.title %></h3>
+                            </div><!-- /.block-title -->
+                                            <p class="testimonials-one__text"><%- item.description %></p>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+        </div>
+			<% }); %>
+
+
+    
+    </div>
+      
+      <div class="swiper-pagination"></div>
+  </div>
+                
+                
+                
+            
+            </div><!-- /.container -->
+        </section><!-- /.testimonials-one -->
+
+        <section class="cta-two giftsection" id="rewards">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="cta-two__content">
+                            <% if(home_gift_rewards_data && Object.keys(home_gift_rewards_data).length > 0){ %>
+								<%- home_gift_rewards_data.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %>  
+                            <!-- /.thm-btn cta-two__btn -->
+                        </div><!-- /.cta-two__content -->
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-lg-6 ">
+                         <div class="cta-one__moc wow fadeInLeft" data-wow-duration="1500ms">
+                    <img src="<%=WEBSITE_IMG_URL%>/resources/gift-send-screen.png" class="cta-one__moc-img" alt="">
+                </div>
+                        
+                       
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.cta-two -->
+
+         <%-       include("../../elements/testimonials.html") %>
+
+    
+        
+
+        <section class="video-one">
+            <div class="container-fluid" style="background-image: url(<%=WEBSITE_IMG_URL%>/resources/video-bg-1-1.jpg);">
+                <div class="video-one__content wow fadeInLeft" data-wow-duration="1500ms">
+                    <div class="block-title">
+                        <% if(home_Uzube_tutorials_data && Object.keys(home_Uzube_tutorials_data).length > 0){ %>
+								<%- home_Uzube_tutorials_data.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %>  
+                        
+                    </div><!-- /.block-title -->  
+                </div><!-- /.video-one__content -->
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal" class="video-one__btn videobtn"><img src="<%=WEBSITE_IMG_URL%>/resources/play-icon.svg" alt="image"></a><!-- /.video-one__btn video-popup -->
+            </div><!-- /.container -->
+        </section><!-- /.video-one -->
+
+
+        <section class="app-shot-one" id="screens">
+            <div class="container-fluid">
+                <div class="block-title text-center">
+                    <p><%= __("front.app_screen.app_screen_title");%></p>
+                    <h3><%= __("front.app_screen.our_screens");%></h3>
+                </div><!-- /.block-title -->
+
+                <div class="app-shot-one__carousel owl-theme owl-carousel thm__owl-carousel">
+                    <% home_App_screen_data.forEach(function (item, index) {
+						var appScreenImg = SPLASH_SCREENS_IMG_URL+"/"+item.image;	
+                        if(item.type == "video"){
+
+                       
+                        
+					%> 
+                    <div class="item-video" >
+                        <div class="videoblock">
+                           <video class="videoheight"  width="100%" autoplay="" loop="" muted="muted" playsinline="" controlslist="nodownload">
+                                 <source src="<%= appScreenImg %>" type="video/mp4">
+                                 <source src="assets/videos/mobile-video.ogg" type="video/ogg">
+                                 <source src="assets/videos/mobile-video.webm" type="video/webm">
+                               </video>
+                           </div>
+                   </div><!-- /.item -->
+                    <% }else{ %>
+
+					
+                    <div class="item">
+                        <div class="imageblock"><img src="<%= appScreenImg %>" alt="Awesome Image" /></div>
+                    </div><!-- /.item -->
+					<% }	}); %>   
+                 
+                </div><!-- /.app-shot-one__carousel owl-theme owl-carousel -->
+            </div><!-- /.container-fluid -->
+        </section><!-- /.app-shot-one -->
+
+        <section class="faq-one" id="faq">
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/faq-bg-1-1.png" class="faq-one__bg-shape-1" alt="">
+            <div class="container">
+                <div class="block-title text-center">
+                    <p> <%= __("front.faq.banner_title");%></p>
+                    <h3><%- __("front.faq.secondary_heading");%></h3>
+                </div><!-- /.block-title -->
+                <div class="accrodion-grp wow fadeIn" data-wow-duration="1500ms" data-grp-name="faq-accrodion">
+				<% home_faq_data.forEach(function (item, index) {
+						var actClass = (index == 0) ? "active" : "";				
+					%>
+                    <div class="accrodion <%= actClass %> ">
+                        <div class="accrodion-inner">
+                            <div class="accrodion-title">
+                                <h4><%- item.question %></h4>
+                            </div>
+                            <div class="accrodion-content">
+                                <div class="inner">
+                                    <p><%- item.answer %></p>
+                                </div><!-- /.inner -->
+                            </div>
+                        </div><!-- /.accrodion-inner -->
+                    </div>
+                   
+                   <% 	}); %>  
+                   
+                </div>
+                <div class="view-more mt-5 text-center">
+                    <a href="<%=WEBSITE_URL%>faq" class="thm-btn cta-two__btn"><span>View All</span></a>
+                </div>
+            </div><!-- /.container -->
+        </section><!-- /.faq-one -->
+
+         <!-- Modal -->
+<div class="modal fade videopopup" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<iframe width="100%" height="500" src="https://www.youtube.com/embed/ineZXLbL7s8?autoplay=1" frameborder="0" allowfullscreen=""></iframe>
+          
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+        
+
+        <%-       include("../../elements/get_an_app.html") %>
+
+     <%-       include("../../elements/newsletter.html") %>
+
+    
+   

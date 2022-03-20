@@ -1,0 +1,232 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-push_notification" data-submit-btn-id="push-notification-edit-btn-id" method="post" class="on_click_submit" role="form" autocomplete="off" >
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+									<label for="user_type" class="control-label"><%= __('admin.push_notification.Select_User_Type'); %><span class="required"> *</span> :</label>
+										<select onchange="getUserData(this)" class="form-control show-tick search_by_status" id="user_type" name="user_type">
+											<option value=""><%=__("Please select user type");%></option>
+											<%
+											if(typeof PUSH_NOTIFICATION_USER_TYPE_DROPDOWN!== typeof undefined && PUSH_NOTIFICATION_USER_TYPE_DROPDOWN.length > 0){
+												PUSH_NOTIFICATION_USER_TYPE_DROPDOWN.map(userType=>{
+											%>
+												<option value="<%=userType.id %>" ><%=userType.name %></option>
+											<% 
+												});
+											} %>
+										</select>
+									</div>
+									<span id="user_type_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						 
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="selected_user_ids" class="control-label"><%= __('admin.push_notification.select_users'); %> </label>
+										
+										<!-- Image loader -->
+											<div id='loader' style='display: none;'>
+											  <img src='<%= WEBSITE_PUBLIC_IMG_URL%>pagination_loader.gif' width='32px' height='32px'>
+											</div>
+										<!-- Image loader -->
+										
+										<select data-live-search="true" class="form-control show-tick search_by_status" id="selected_user_ids" multiple="true" name="selected_user_ids">
+										</select>
+									</div>
+									<span id="selected_user_ids_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="message" class="control-label"><%= __("admin.push_notification.message"); %><span class="required"> *</span> :</label>
+										<textarea rows="4"  id="message" class="form-control no-resize"  name="message"></textarea>
+										<!-- <textarea rows="4"  id="message" class="form-control no-resize ckeditor"  name="message"></textarea> -->
+									</div>
+									<span id="message_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						
+						 <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-line realted_city valid_location_div">
+                                        <label for="selected_user_ids" class="control-label"><%= __('admin.push_notification.select_users'); %> </label>
+                                        <select id="realted_city" name="realted_city" multiple="true" class="form-control ms selectpicker" data-live-search="true" title="<%=__("admin.push_notification.please_select_users");%>">
+                                            
+                                        </select>
+                                    </div>
+                                    <span id="realted_city_error" class="error"></span>
+                                </div>
+                            </div>
+						</div>	
+						
+						
+						<button type="button"  id="push-notification-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>	
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>select2.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>ajax-bootstrap-select/bootstrap-select.min.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>ajax-bootstrap-select/ajax-bootstrap-select.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+
+<%- contentFor("script") %>
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>select2/select2.min.js"></script> 
+    <script src="<%=WEBSITE_ADMIN_JS_PATH%>ajax-bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="<%=WEBSITE_ADMIN_JS_PATH%>ajax-bootstrap-select/ajax-bootstrap-select.js"></script>
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+	
+	<!-- <script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script> -->
+
+	<script type="text/javascript">
+		
+		<!-- CKEDITOR.replace('description', { -->
+	     	<!-- filebrowserUploadUrl: '<%= WEBSITE_ADMIN_URL%>ckeditor_uploader/', -->
+		<!-- }); -->
+		
+		/** 
+		**get user list of user type wise data
+		***/
+		function getUserData(selectObject){
+			var value = selectObject.value;
+			if(value){
+				$.ajax({
+					'type'		: 	'POST',
+					url 		:	"<%=admin_list_url%>/get_user_list_type_wise/"+value,
+					'data'		: 	{ 'user_type': value	},
+					 beforeSend: function(){
+					// Show image container
+						$("#loader").show();
+					},
+					'success': function (response){
+						var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+						if(result.length > 0){
+							//var option =	'<option value="">Please select users</option>';
+							var option =	' ';
+							result.map(function(res){
+								/**create select box */
+								var selectedString = (res._id == value) ? "selected" : "";
+								option+='<option  value="'+res._id+'">'+res.full_name+" ("+res.email+")"+'</option>';
+							});
+							$("#selected_user_ids").html(option);
+							$("#selected_user_ids").selectpicker('refresh');
+						}else{
+							//var option =	'<option value="">Please select users</option>';
+							var option =	'';
+							$("#selected_user_ids").html(option);
+							$("#selected_user_ids").selectpicker('refresh');
+						}
+						//$(".test-select-box").show();
+					},
+					complete:function(data){
+						// Hide image container
+						$("#loader").hide();
+					}
+				});
+			}else{
+				//var option =	'<option value="">Please select users</option>';
+				var option =	'';
+				$("#selected_user_ids").html(option);
+				$("#selected_user_ids").selectpicker('refresh');
+			}
+		}
+		 
+        /** 
+        **get user list type wise for ajax type 
+        ***/
+        $('#realted_city').selectpicker().ajaxSelectPicker({
+            ajax: {
+                url: '<%=admin_list_url%>/get_user_list_type_wise_ajax/',
+                type: 'POST',
+                dataType: 'json',
+                data    : function() { // This is a function that is run on every request
+                    return {
+                        q       :   '{{{q}}}',
+                        user_type :   $("#user_type").val()//this is an input text HTML
+                    };
+                }
+                // data: { q: '{{{q}}}', page: $('#user_type').val()}
+            },
+            minLength: 3,
+            // function to preprocess JSON data
+            preprocessData: function (data) {
+			
+			
+                /** Start function call realted same cities**
+                var cityValue   = $('#user_type').val();
+                var cityId  =   {
+                    value : $('#user_type').val()
+                }
+
+                getGetawaysRealtedCity(cityId);
+                /** End function call realted same cities**/
+
+                var i, l = data.result.length, selectOptions = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        selectOptions.push($.extend(true, data.result[i], {
+                            text : data.result[i].full_name+" ("+data.result[i].email+")",
+                            value: data.result[i]._id,
+                            data : { /* subtext: data.result[i].state_name */ }
+                        }));
+                    }
+                }
+                return selectOptions;
+            }
+        });
+
+		
+		$(document).ready(function(){
+			/**
+			 * Function to submit form
+			 */
+			$(".btn-submit").click(function(){
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+				ajax_submit("add-push_notification",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});			
+		});
+	</script>

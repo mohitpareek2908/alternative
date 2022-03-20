@@ -1,0 +1,558 @@
+<%
+var amountValue = (deduct_amount_value) ? deduct_amount_value :0;
+%>
+
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-country" data-submit-btn-id="banner-edit-btn-id" method="post" class="on_click_submit" autocomplete="off"  role="form" enctype="mutlipart/form-data">			
+						<!-- <div class="row clearfix">
+							
+							<div class="col-sm-12 align-center">
+								<div class="form-group add-image">
+									
+									<input name="image" id="image" class="form-control image-input-file" type="file"/>
+									<span class="help-inline required image" id="ContentTypeNameSpan">
+										<div id="pImage">
+											<img src="<%=ADD_PROFILE_IMAGE_ICON%>?dim=120x120&type=crop" alt="image" class="profileImage" />
+										</div>
+									</span>
+									<br/>
+									<div>
+										<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="<%= __("admin.system.allowed_file_extension")+AD_IMAGE_EXTENSIONS%>" class="btn bg-teal btn-block btn-sm waves-effect changePhoto">
+											<%= __("admin.global.image"); %>
+										</a>
+									</div>
+									<span id="image_error" class="error"></span>
+								</div>
+							</div>
+						</div> -->
+						<div class="row clearfix">
+							<input type="hidden" name="deduct_amount_per_click">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="name" class="control-label"><%= __("admin.ad_managements.ad_name"); %><span class="required"> *</span> </label>
+										<input type="text" name="name" class="form-control" id="name">
+									</div>
+									<span id="name_error" class="error"></span>
+								</div>
+							</div>
+								<!---onchange="getInterestData(this)"---->
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+										<label for="post_media_type" class="control-label"><%= __('admin.ad_managements.campaign_post_type'); %><span class="required"> *</span></label>
+											<select   class="form-control show-tick search_by_status multiple" id="post_media_type" name="post_media_type">
+												<option value=""><%=__("admin.ad_managements.please_select_campaign_post_type");%></option>
+												<%
+												if(typeof POST_TYPE_DROPDOWN!== typeof undefined && POST_TYPE_DROPDOWN.length > 0){
+													POST_TYPE_DROPDOWN.map(searchStatus=>{
+												%>
+													<option value="<%=searchStatus.status_id %>" ><%=searchStatus.status_name%></option>
+												<% 
+													});
+												} %>
+											</select>
+											<input type = "hidden" name="at" id="at" value="">
+										</div>
+										<span id="post_media_type_error" class="error"></span>
+									</div>
+								</div>
+
+							
+
+
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+									<label for="image" class="control-label"><%= __('admin.ad_managements.file'); %><span class="required"> *</span></label>
+										
+										<input type = "file" name="image" id="image" >
+									</div>
+									<span id="image_error" class="error"></span>
+								</div>
+							</div>
+
+							<div class="col-sm-6 " id="thumbanilImageDiv">
+								<div class="form-group">
+									<div class="form-line">
+									<label for="thumbnail_image" class="control-label"><%= __('admin.ad_managements.thumbnail_image'); %><span class="required"> *</span></label>
+										
+										<input type = "file" name="thumbnail_image" id="thumbnail_image" >
+									</div>
+									<span id="thumbnail_image_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							
+
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+									<label for="age_type" class="control-label"><%= __('admin.ad_managements.age_type'); %><span class="required"> *</span></label>
+										<select onchange="getInterestData(this)"  multiple="true"   class="form-control search_by_status" id="age_type" name="age_type">
+											<option disabled value=""  ><%=__("admin.ad_managements.please_select_age_type");%></option>
+											<%
+											if(typeof DROPDOWN_FOR_AGE_TYPE!== typeof undefined && DROPDOWN_FOR_AGE_TYPE.length > 0){
+												DROPDOWN_FOR_AGE_TYPE.map(searchStatus=>{
+											%>
+												<option value="<%=searchStatus.id %>" ><%=searchStatus.name%></option>
+											<% 
+												});
+											} %>
+										</select>
+										<input type = "hidden" name="at" id="at" value="">
+									</div>
+									<span id="age_type_error" class="error"></span>
+								</div>
+								
+							</div>
+							<div class="col-sm-6" id="kidInterestDiv">
+								<div class="form-group">
+									<div class="form-line">
+									<label for="kid_interest_id" class="control-label"><%= __('admin.ad_managements.kid_interest'); %><span class="required"> *</span></label>
+										<select class="form-control show-tick search_by_status" multiple="true" id="kid_interest_id" name="kid_interest_id" >
+											<option disabled ><%=__("admin.ad_managements.please_select_interest");%> </option>
+											<%
+											if(typeof kid_roles!== typeof undefined && kid_roles.length > 0){
+												kid_roles.map(searchStatus=>{
+											%>
+												<option value="<%=searchStatus._id %>" ><%=searchStatus.name%></option>
+											<% 
+												});
+											} %>
+											
+										</select>
+									</div>
+									<span id="kid_interest_id_error" class="error"></span>
+								</div>
+							</div>
+
+						</div>
+						<div class="row clearfix">
+							
+							
+							<div class="col-sm-6" id="teenInterestDiv" >
+								<div class="form-group">
+									<div class="form-line">
+									<label for="teen_interest_id" class="control-label"><%= __('admin.ad_managements.teen_interest'); %><span class="required"> *</span></label>
+										<select class="form-control show-tick search_by_status" multiple="true" id="teen_interest_id" name="teen_interest_id" >
+											<option disabled value=""><%=__("admin.ad_managements.please_select_interest");%></option>
+											<%
+											if(typeof teen_roles!== typeof undefined && teen_roles.length > 0){
+												teen_roles.map(searchStatus=>{
+											%>
+												<option value="<%=searchStatus._id %>" ><%=searchStatus.name%></option>
+											<% 
+												});
+											} %>
+										</select>
+									</div>
+									<span id="teen_interest_id_error" class="error"></span>
+								</div>
+							</div>
+							
+							<div class="col-sm-6" id="adultInterestDiv">
+								<div class="form-group">
+									<div class="form-line">
+									<label for="adult_interest_id" class="control-label"><%= __('admin.ad_managements.adult_interest'); %><span class="required"> *</span></label>
+										<select class="form-control show-tick search_by_status" multiple="true" id="adult_interest_id" name="adult_interest_id" >
+											<option disabled value=""><%=__("admin.ad_managements.please_select_interest");%></option>
+											<%
+											if(typeof adult_roles!== typeof undefined && adult_roles.length > 0){
+												adult_roles.map(searchStatus=>{
+											%>
+												<option value="<%=searchStatus._id %>" ><%=searchStatus.name%></option>
+											<% 
+												});
+											} %>
+										</select>
+									</div>
+									<span id="adult_interest_id_error" class="error"></span>
+								</div>
+							</div>
+						
+						</div>
+					
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="campaign_type" class="control-label"><%= __("admin.ad_managements.campaign_type"); %><span class="required"> * </span> </label>
+										
+										<select class="form-control show-tick search_by_status" id="campaign_type" name="campaign_type">
+											<option value=""><%=__("admin.ad_managements.please_select_campaign_type");%></option>
+											<%
+											if(typeof CAMPAIGN_DROPDOWN!== typeof undefined && CAMPAIGN_DROPDOWN.length > 0){
+												CAMPAIGN_DROPDOWN.map(searchStatus=>{
+											%>
+												<option value="<%=searchStatus.slug%>" ><%=searchStatus.name%></option>
+											<% 
+												});
+											} %>
+										</select>
+
+									</div>
+									<span id="campaign_type_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="website_url" class="control-label"><%= __("admin.ad_managements.redirect_url"); %><span class="required"></span> </label>
+										<input type="text" name="website_url" class="form-control" id="website_url">
+									</div>
+									<span id="website_url_error" class="error"></span>
+								</div>
+							</div>
+							
+						</div>
+						<div class="row clearfix validity_type_fields">
+							<div class="col-md-6">
+	                           <label for="start_date" class="control-label"><%= __('admin.ad_managements.start_date'); %><span class="required"> *</span> </label>
+	                            <div class="input-group">
+	                                <div class="form-line">
+										<input name="duration_start_date" id="duration_start_date" type="text" class="form-control" value="" />
+	                                    <!-- <input name="start_date" id="start_date" type="text" class="form-control" placeholder="<%=DATEPICKER_DATE_EXAMPLE%>" readonly='true'/> -->
+	                                </div>
+	                                <span id="duration_start_date_error" class="error"></span>
+	                            </div>
+	                        </div>							
+							<div class="col-md-6">
+	                           <label for="end_date" class="control-label"><%= __('admin.ad_managements.end_date'); %><span class="required"> *</span> </label>
+	                            <div class="input-group">
+	                                <!-- <span class="input-group-addon">
+	                                    <i class="material-icons">date_range</i>
+	                                </span> -->
+	                                <div class="form-line">
+										<input name="duration_end_date" id="duration_end_date" type="text" class="form-control" value="" />
+	                                    <!-- <input name="end_date" id="end_date" type="text" class="form-control" placeholder="<%=DATEPICKER_DATE_EXAMPLE%>" readonly='true'/> -->
+	                                </div>
+	                                <span id="duration_end_date_error" class="error"></span>
+	                            </div>
+	                        </div>
+						</div>
+
+						<div class="row clearfix validity_type_fields">
+							<div class="col-md-6">
+	                           <label for="description" class="control-label"><%= __('admin.ad_managements.description'); %><span class="required"> *</span> </label>
+	                            <div class="input-group">
+	                                <div class="form-line">
+										<textarea rows="4"  id="description" class="form-control no-resize "  name="description"></textarea>
+												
+										
+									</div>
+	                                <span id="description_error" class="error"></span>
+	                            </div>
+	                        </div>							
+						
+						</div>
+
+
+						<button type="button"  id="banner-add-btn-id"  class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %>><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>bootstrap-datetimepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript">
+		
+		//  CKEDITOR.replace('description', {
+	    //  	 filebrowserUploadUrl: '<%= WEBSITE_ADMIN_URL%>ckeditor_uploader/',
+		//  });
+		
+		$(document).ready(function(){ 
+
+			$("#thumbanilImageDiv").hide();	
+			$("#kidInterestDiv").hide();	
+			$("#teenInterestDiv").hide();	
+			$("#adultInterestDiv").hide();	
+			/**
+			 * Function to submit form
+			 */
+
+			 $(".btn-submit").click(function(){
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+				ajax_submit("add-country",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});	
+
+
+		
+			
+			/** 
+			 * User image Upload 
+			 */
+			$(document).on("click", ".changePhoto", function(){
+				if(!$(".add-image #image").hasClass("added")){
+					$(".add-image #image").trigger("click");
+					$(".add-image #image").addClass("added");
+					window.setTimeout(function(){
+						$(".add-image #image").removeClass("added");
+					},500);
+				}
+			});
+			
+			/** 
+			 *Show user image after select 
+			 */
+			$("#image").on("change", function(){
+				var UPLOAD_FILE_SIZE = '2';
+				var size 			= parseFloat($("#image")[0].files[0].size).toFixed(2);
+				var allowed_size 	= UPLOAD_FILE_SIZE * 1024 * 1024; 
+				if(size > UPLOAD_FILE_SIZE * 1024 * 1024){
+					
+						$("#image_error").html("Please upload valid size image. Maximum uploaded file size 2 MB.");
+						$('#image').val('');
+				}else{
+					
+					/** Image validion size start*/
+					var file = $(this)[0].files[0];
+					var _URL = window.URL || window.webkitURL;
+					img = new Image();
+					var imgwidth = 0;
+					var imgheight = 0;
+					var maxwidth = 0;
+					var maxheight = 0;
+					
+					img.src = _URL.createObjectURL(file);
+					img.onload = function() {
+					   imgwidth = this.width;
+					   imgheight = this.height;
+					   
+						
+					}
+					/** Image validion size end*/
+				
+					var files = !!this.files ? this.files : [];
+					if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+					
+					if (/^image/.test( files[0].type)){ 
+						// only image file
+						var reader = new FileReader(); // instance of the FileReader
+						reader.readAsDataURL(files[0]); // read the local file
+						reader.onloadend = function(){ 
+							
+							$("#pImage").html("<img src='"+this.result+"' class='profileImage' >");
+						}
+					}
+					$("span#image_error").text("");
+				}
+			});
+
+			/**
+			 * Javascript function to initialize valid from date
+			 */
+			 var today = new Date();
+			 today.setHours(0,0,0,0); 
+            
+			$('#duration_start_date').datetimepicker({
+				minDate:  today,
+				format : "<%= SITE_DATE_FORMAT%>",
+			});
+			$('#duration_start_date').val(""); 
+			$('#duration_end_date').datetimepicker({
+				minDate:  today,
+				format : "<%= SITE_DATE_FORMAT%>",
+			});
+			$('#duration_end_date').val(""); 
+            // $('#start_date').datetimepicker({
+            // 	format			: 'YYYY-MM-DD HH:mm',
+            // 	minDate			: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"),
+            // 	date			: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"),
+            // 	ignoreReadonly	: true,
+            // }).on("dp.change", function(e){
+            // 	$('#end_date').data("DateTimePicker").minDate(e.date);
+            // });
+			
+			/**
+             * Javascript function to initialize datepicker for valid to date.
+             */
+            // var dateNow	= moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"); 
+            // $('#end_date').datetimepicker({
+            // 	format			: 'YYYY-MM-DD HH:mm',
+            // 	minDate			: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"),
+            // 	date			: moment(dateNow).hours(23).minutes(59).seconds(59).milliseconds(0),
+            // 	ignoreReadonly	: true,
+            // 	useCurrent		: false
+            // });
+			
+
+
+			$("#post_media_type").on('change',function(){
+					var campaignType = $(this).val();
+					if(campaignType == "<%= POST_TYPE_VIDEO %>")
+					{
+						$("#thumbanilImageDiv").show();	
+					}else{
+						$("#thumbanilImageDiv").hide();	
+					}
+			});		
+			
+		});
+
+		/*
+		* get states list country wise data
+		***/
+		function getInterestData(selectObject){
+			
+			var value= $("option:selected:last",$("#age_type")).val();
+			value= $("#age_type").val();
+			var pieces;
+
+		var abc = String(value)
+
+
+		if(abc.includes("kid"))
+				{
+					$("#kidInterestDiv").show();	
+				}else{
+					$("#kidInterestDiv").hide();
+				}
+
+				if(abc.includes("teen"))
+				{
+					$("#teenInterestDiv").show();	
+				}else{
+					$("#teenInterestDiv").hide();
+				}
+
+				if(abc.includes("adult"))
+				{
+					$("#adultInterestDiv").show();	
+				}else{
+					$("#adultInterestDiv").hide();
+				}
+
+
+
+			if(value && value.length>1){
+
+				 pieces = String(value).split(/[\s,]+/);
+			}else{
+				pieces = value
+			}
+			
+		
+			if(pieces){
+			
+			
+						// switch (String(pieces)) {
+						// 	case "kid":
+						
+						// 		$("#kidInterestDiv").show();	
+						// 		break;
+						// 	case "teen":
+						
+						// 			$("#teenInterestDiv").show();	
+						// 		break;
+						// 	case "adult":
+							
+						// 			$("#adultInterestDiv").show();	
+						// 		break;
+						// 	default:
+						// 	$("#kidInterestDiv").hide();	
+						// 	$("#teenInterestDiv").hide();	
+						// 	$("#adultInterestDiv").hide();	
+						// 		break;
+						// 	}
+
+				
+				// $.ajax({
+				// 	'type'		: 	'POST',
+				// 	url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_age_role_wise_interest/"+pieces,
+				// 	'data'		: 	{ 'age_type': pieces},
+				// 	'success': function (response){
+						
+				// 		var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+				// 		if(result.length > 0){
+				// 			var option =	'<option value=""><%= __("admin.ad_managements.please_select_interest"); %></option>';
+				// 			result.map(function(res){
+				// 				/**create select box */
+				// 				var selectedString = (res._id == value) ? "selected" : "";
+				// 				option+='<option  value="'+res._id+'">'+res.name+'</option>';
+				// 			});
+				// 			if(value == "kid")
+				// 			{
+				// 				$("#kid_interest_id").html(option);
+				// 				$("#kid_interest_id").selectpicker('refresh');
+				// 			}else if(value== "teen")
+				// 			{
+				// 				$("#teen_interest_id").html(option);
+				// 				$("#teen_interest_id").selectpicker('refresh');
+				// 			}else if(value == "adult")
+				// 			{
+				// 				$("#adult_interest_id").html(option);
+				// 				$("#adult_interest_id").selectpicker('refresh');
+				// 			}
+							
+				// 		}else{
+				// 			var option =	'<option value=""><%= __("admin.ad_managements.please_select_interest"); %></option>';
+				// 			$("#kid_interest_id").html(option);
+				// 			$("#teen_interest_id").html(option);
+				// 			$("#adult_interest_id").html(option);
+				// 			$("#kid_interest_id").selectpicker('refresh');
+				// 			$("#teen_interest_id").selectpicker('refresh');
+				// 			$("#adult_interest_id").selectpicker('refresh');
+
+				// 		}
+				// 		//$(".test-select-box").show();
+				// 	}
+				// });
+			}else{
+				$("#kidInterestDiv").hide();	
+							$("#teenInterestDiv").hide();	
+							$("#adultInterestDiv").hide();	
+				var option =	'<option value=""><%= __("admin.ad_managements.please_select_interest"); %></option>';
+							$("#kid_interest_id").html(option);
+							$("#teen_interest_id").html(option);
+							$("#adult_interest_id").html(option);
+							$("#kid_interest_id").selectpicker('refresh');
+							$("#teen_interest_id").selectpicker('refresh');
+							$("#adult_interest_id").selectpicker('refresh');
+			}
+		}
+
+
+	</script>
+
+
+
+

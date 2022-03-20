@@ -1,0 +1,127 @@
+<%
+	let activeFirst 	=	(active_path)		?	active_path					:	"";	
+	let activeSecond 	=	(active_tab)		?	active_tab					:	"";
+	let title			=	(activeSecond=="")	?	activeFirst					:	activeSecond;
+	let finalTitle		=	(title!="")			?	title.replace(/-/g, ' ')	:	'HOME';
+	finalTitle			=	finalTitle.toUpperCase();
+	
+	if(isNaN(finalTitle)==false){
+		finalTitle	=	'NEWS';
+	}
+	
+	let siteLanguage =  DEFAULT_LANGUAGE_MONGO_ID;
+
+%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title><%= settings["Site.site_title"]%> :: <%= finalTitle %></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="<%= WEBSITE_CSS_PATH%>animate.min.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>aos.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>bootstrap.min.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>bootstrap-icons.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>boxicons.min.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>remixicon.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>swiper-bundle.min.css" rel="stylesheet">
+  <link href="<%= WEBSITE_CSS_PATH%>style.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="page-wrapper">
+	<%- include('../elements/header.html') %>
+		<!-- <div class="loader"> -->
+			<!-- <img src="<%=DATATABLE_LOADER_IMAGE%>" alt="Loading..." /> -->
+		<!-- </div> -->
+
+		<div class="loading-cntant" style="display: none;">
+			<div class="loader">
+			<figure>
+			<img alt="logo" src="<%=WEBSITE_IMG_URL%>logo.svg">
+			</figure>
+			</div>
+		</div>
+		
+		<%- body%>
+
+		<script>
+				LOADING_SPINNER 	= "<%- LOADING_SPINNER %>";
+				WEBSITE_URL		 	= '<%- WEBSITE_URL %>';
+				FRONT_END_NAME		= '<%- FRONT_END_NAME %>';
+				var stopLoader		= true;
+		</script>
+		<%- include('../elements/footer.html') %>
+		
+			
+	 </div><!-- /.page-wrapper -->	
+	  <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
+
+	
+	
+	 <!-- Vendor JS Files -->
+  <script src="<%= WEBSITE_JS_PATH%>jquery-3.5.0.min.js"></script>	 
+  <script src="<%= WEBSITE_JS_PATH%>purecounter.js"></script>
+  <script src="<%= WEBSITE_JS_PATH%>aos.js"></script>
+  <script src="<%= WEBSITE_JS_PATH%>bootstrap.bundle.min.js"></script>
+  <script src="<%= WEBSITE_JS_PATH%>swiper-bundle.min.js"></script>
+  <script src="<%= WEBSITE_JS_PATH%>validate.js"></script>
+  <script src="<%= WEBSITE_JS_PATH%>main.js"></script>
+  <script src="<%= WEBSITE_JS_PATH%>FormValidation/formValidation.js"> </script> 
+  <script src="<%= WEBSITE_JS_PATH%>FormValidation/bootstrap.js"></script>
+
+	<script>
+
+        var swiper = new Swiper('.swiper-container', {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    
+    </script>
+   
+   <script>
+			function show_loader(){
+				$('.loading-cntant').css("display","block");
+			}
+			function hide_loader(){
+				$('.loading-cntant').css("display","none");
+			}
+			
+	
+		</script>
+		
+	 
+		<%- defineContent("script") %>
+	</body>
+</body>
+
+</html>
+	
+

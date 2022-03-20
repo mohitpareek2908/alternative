@@ -1,0 +1,146 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.blogcategory.add_category"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/categories" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ../../../elements/multilanguage_tabs.html %>
+					<!-- Multilanguage tabs -->
+					<form id="add-block" data-submit-btn-id="block-add-btn-id" method="post" class="on_click_submit" role="form">
+						<!-- Tab panes -->
+						<div class="tab-content mt-20">
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="category_name" class="control-label">
+												<%= __("admin.blogcategory.category_name"); %>
+												<span class="required"> *</span> :
+											</label> 
+											<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+												<span class="float-right">
+													<b><%= __("admin.system.these_fields_are_sane_in_all_languages"); %></b>
+												</span>
+											<% } %>
+											<input type="text" id="category_name" name="category_name" class="form-control" />
+										</div>
+										<span id="category_name_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="parent_id" class="control-label">
+												<%= __("admin.blogcategory.parent_id"); %>
+													<span class="required"></span>
+											</label> 
+											<select name="parent_id" class="form-control">
+												<option value="0">Please select parent</option>
+												<%- categories_list %>
+											</select>
+										</div>
+										<span id="parent_id_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="meta_title" class="control-label">
+												<%= __("admin.blogcategory.meta_title"); %>
+													<span class="required"></span>
+											</label> 
+										 
+											<input type="text" id="meta_title" name="meta_title" class="form-control"/>
+										</div>
+										<span id="meta_title_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="meta_keywords" class="control-label">
+												<%= __("admin.blogcategory.meta_keywords"); %>
+													<span class="required"></span>
+											</label> 
+										 
+											<input type="text" id="meta_keywords" name="meta_keywords" class="form-control"/>
+										</div>
+										<span id="meta_keywords_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="meta_description" class="control-label">
+												<%= __("admin.blogcategory.meta_description"); %>
+													<span class="required"></span>
+											</label> 
+										 
+											<input type="text" id="meta_description" name="meta_description" class="form-control"/>
+										</div>
+										<span id="parent_id_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+						
+						</div>
+						<button type="button" id="block-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>/categories"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>select2.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>select2/select2.min.js"></script>
+	
+	<script type="text/javascript">
+	
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+		//	updateCkeditorValue();
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('add-block',function(status,response){
+				
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>

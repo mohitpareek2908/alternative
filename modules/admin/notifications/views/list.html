@@ -1,0 +1,210 @@
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<!-- Search by user name-->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_0"  onkeyup="searchDatatable(0)" placeholder="<%= __('admin.notifications.search_by_user_name'); %>">
+										</div>
+									</div>
+								</div>
+								<!-- Search by Date Range -->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.notifications.search_by_created_date'); %>">
+										</div>
+										<input class="form-control hide" id="from_date" type="text" name="from_date">
+										<input class="form-control hide" id="to_date" type="text" name="to_date">
+									</div>
+								</div>
+								<!-- Search by message-->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_1"  onkeyup="searchDatatable(1)" placeholder="<%= __('admin.notifications.search_by_message'); %>">
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<!-- Start Listing -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.notifications.notifications_management"); %>
+					</h2>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="25%"><%= __("admin.notifications.user_name"); %></th>
+								<th width="55%"><%= __("admin.notifications.message"); %></th>
+								<th width="20%"><%= __("admin.system.created"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	
+<%-contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"order"		: [[2, "desc"]],
+				"sDom"		: "ltipr",
+				"serverSide": true,
+				"scrollX"	: true,
+				"lengthMenu": PAGING_LENGTH_MENU,
+				"columns"	: [
+					{
+						"data"		: {},
+						"field_name":'created_by_name',
+						"orderable"	: false,
+						"render" 	: function(result){
+							var userId   	  	= (result.created_by) 			?	result.created_by:'';
+							var createdByName 	= (result.created_by_name)		? 	result.created_by_name:'';
+							var createdRoleId 	= (result.created_role_id)		? 	result.created_role_id:'';
+							var extraParameters = (result.extra_parameters)		? 	result.extra_parameters:{};
+							var userType 		= (extraParameters.user_type)	? 	extraParameters.user_type:"";
+							return	generateUserLink(createdByName,userId,createdRoleId,userType);	
+						}
+					},
+					{
+						"data"		:	{},
+						"field_name":	'message',
+						"orderable" : 	false,
+						"render" 	: 	function(result){
+							var message	=	(result.message)	?	result.message	:"";
+							var url		=	(result.url)		?	result.url		:"";
+							if(url && url.indexOf('javascript') == -1){
+								message = '<a href="<%=WEBSITE_ADMIN_URL%>'+url+'" target="_blank">'+message+'</a>';
+							}
+							return message;
+						}
+					},
+					{
+						"data"			: 'created',
+						"searchable"	: false,
+						"render" 		: function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT);
+						}
+					},
+				],
+				"ajax":{
+					url 	: 	"<%=admin_list_url%>",
+					type	: 	"POST",
+					data	:	function(d){
+						d.fromDate 	= $('#from_date').val();
+				        d.toDate 	= $('#to_date').val();
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				}
+			});
+
+			/**
+			* Applying date range filter
+			*
+			* @param  null
+			*
+			* @return void
+			*/
+			configDemo.on('apply.daterangepicker', function(e,picker){
+				var startDate	= picker.startDate.format('YYYY-MM-DD HH:mm:00');
+				var endDate		= picker.endDate.format('YYYY-MM-DD HH:mm:59');
+
+				$('#from_date').val(startDate);
+				$('#to_date').val(endDate);
+
+				var displayStartDate 	=	picker.startDate.format('YYYY-MM-DD HH:mm');
+				var displayEndDate 		= 	picker.endDate.format('YYYY-MM-DD HH:mm');
+				$('#date-range-picker').val(displayStartDate+" - "+displayEndDate);
+				dataTable.draw();
+			});
+
+			/**
+			* Unset date range picker value when click to "clear" button
+			*
+			* @param  null
+			*
+			* @return void
+			*/
+			configDemo.on('cancel.daterangepicker',function(e){
+				configDemo.data('daterangepicker').setStartDate(new Date());
+				configDemo.data('daterangepicker').setEndDate(new Date());
+
+				$('#from_date').val("");
+				$('#to_date').val("");
+				$('#date-range-picker').val("");
+				dataTable.draw();
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+		/**
+	 	 * For date range picker in searching
+		 */
+		var DATE_FORMAT = 	"YYYY-MM-DD";
+		var START_DATE	= 	(typeof dateFrom !== typeof undefined && dateFrom!="")	?	new Date(dateFrom) 	: new Date();
+		var END_DATE	= 	(typeof dateTo !==typeof  undefined && dateTo!="" ) 	?	new Date(dateTo) 	: new Date();
+		var OPENS		= 	"right";
+		var options		= 	{};
+
+		/**Options for date range picker*/
+		options.locale = {
+			format		: 	DATE_FORMAT,
+			cancelLabel	:	"Clear"
+		};
+
+		options.startDate		= 	START_DATE;
+		options.endDate			= 	END_DATE;
+		options.opens			= 	OPENS;
+		options.autoUpdateInput	= 	false;
+		options.maxDate			= 	new Date();
+
+		var configDemo = $('#date-range-picker');
+
+		configDemo.daterangepicker(options, function (start, end, label) {
+			var start_date	= start.format('YYYY-MM-DD');
+			var end_date	= end.format('YYYY-MM-DD');
+		});
+	</script>

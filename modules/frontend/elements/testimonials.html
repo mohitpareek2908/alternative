@@ -1,0 +1,63 @@
+<!-- Testimonial Section -->
+<% if(testimonial && Object.keys(testimonial).length > 0){ %>
+  <section class="testimonials-one">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-6">
+					
+                        <div class="testimonials-one__thumb-carousel-wrap">
+                            <div class="testimonials-one__icon">
+                                <div class="testimonials-one__icon-inner">
+                                    <img src="<%=WEBSITE_IMG_URL%>/shapes/testi-qoute-1-1.png" alt="">
+                                </div><!-- /.testimonials-one__icon-inner -->
+                            </div><!-- /.testimonials-one__icon -->
+							
+                            <div class="testimonials-one__thumb-carousel">
+                                <div class="swiper-wrapper"> 
+								<% testimonial.forEach(function (item, index) { 
+								var testimonIalImg = TESTIMONIAL_SCREENS_IMG_URL+"/"+item.image;
+								%>
+                                    <div class="swiper-slide">
+                                        <div class="testimonials-one__image">
+                                            <img src="<%= testimonIalImg %>" alt="Awesome Image" />
+                                        </div><!-- /.testimonials-one__image -->
+                                    </div><!-- /.swiper-slide -->
+                                    
+									<% }); %>
+                                </div><!-- /.swiper-wrapper -->
+                            </div><!-- /.testimonials-one__thumb-carousel -->
+							
+                        </div><!-- /.testimonials-one__thumb-carousel-wrap -->
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-xl-6 d-flex">
+                        <div class="my-auto">
+                            <div class="block-title text-left">
+                                <p><%- __("front.testimonial.testimonial_heading");%></p>
+                                <h3><%- __("front.testimonial.testimonial_sub_heading");%></h3>
+                            </div><!-- /.block-title -->
+                            <div class="testimonials-one__carousel">
+                                <div class="swiper-wrapper">
+								<% testimonial.forEach(function (item, index) { %>
+												
+                                    <div class="swiper-slide">
+                                        <div class="testimonials-one__single">
+                                            <p class="testimonials-one__text"><%= item.description %></p>
+                                            <!-- /.testimonials-one__text -->
+                                            <h3 class="testimonials-one__title"><%= item.name %></h3>
+                                            <!-- /.testimonials-one__title -->
+                                        </div><!-- /.testimonials-one__single -->
+                                    </div><!-- /.swiper-slide -->
+									<% }); %>
+                                  
+                                
+                                </div><!-- /.swiper-wrapper -->
+                                <div class="testimonials-one__pagination-wrap">
+                                    <div class="swiper-pagination"></div>
+                                </div><!-- /.testimonials-one__pagination-wrap -->
+                            </div><!-- /.testimonials-one__carousel -->
+                        </div><!-- /.my-auto -->
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.testimonials-one -->
+<% } %>

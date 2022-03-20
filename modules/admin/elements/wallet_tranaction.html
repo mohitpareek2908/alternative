@@ -1,0 +1,72 @@
+<!-- Start modal wallet balance -->
+<div class="modal fade" id="wallet-modal-box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<h4 class="modal-title" id="largeModalLabel"><%= __('admin.user.update_wallet_balance'); %></h4>						
+			</div>
+			<hr/>
+			<div class="modal-body">						
+				<div class="body">	
+					<form id="update-wallet-ballance" action="<%= admin_list_url+"/"+userType %>/update_wallet_balance" method="post" class="on_click_submit" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<label for="select_type"><%= __('admin.system.select_type'); %> <span class="required"> *</span> </label>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div>
+										<div class="demo-radio-button">
+											<%
+											let selected = true;
+											if(typeof TRANSACTION_TYPE !== typeof undefined && Object.keys(TRANSACTION_TYPE).length >0){
+												Object.keys(TRANSACTION_TYPE).map(records=>{ %>
+													<input name="tranaction_type" type="radio" id="<%=records%>" class="with-gap type-change" value="<%=records%>" <%= (selected) ? "checked" : "" %> />
+													<label for="<%=records%>">
+														<%=(TRANSACTION_TYPE[records] && TRANSACTION_TYPE[records]) ? (TRANSACTION_TYPE[records]) :""%>
+													</label>
+											<%
+												selected = false;
+												});
+											} %>
+										</div>
+									</div>
+									<span id="debit_credit_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<span id="user_id_error" class="error"></span>
+								<input type="hidden" name="user_id" id="user_id" value=""/>
+								
+								<div class="form-group">
+									<div class="form-line">
+										<label for="wallet_balance" class="control-label"><%= __("admin.user.wallet_balance"); %><span class="required"> *</span> :</label>
+										<input name="wallet_balance" id="wallet_balance" class="form-control"/>
+									</div>
+									<span id="wallet_balance_error" class="error"></span> 
+								</div>
+							</div>
+							<div class="row clearfix"></div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="reason" class="control-label"><%= __("admin.user.reason"); %><span class="required"> *</span> :</label>
+										<textarea class="form-control"  name="reason" id="reason" ></textarea>
+									</div>
+									<span id="reason_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+					</form>
+					<hr/>
+					<button type="button" id="update-wallet-ballance-btn-id" class="btn bg-pink btn-sm waves-effect no_hover btn-submit-wallet" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+				<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button>
+				</div>
+			</div>
+		</div>				
+	</div>
+</div>
+<!-- End modal wallet balance -->

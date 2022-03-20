@@ -1,0 +1,167 @@
+ <section class="page-header faq-page-header">
+            <div class="container">
+                <h2><%= __("front.faq.banner_title");%></h2>
+                <ul class="list-unstyled thm-breadcrumb">
+                    <li><a href="<%= WEBSITE_URL %>">Home</a></li>
+                    <li class="activepage"><span>FAQ</span></li>
+                </ul><!-- /.list-unstyled -->
+            </div><!-- /.container -->
+        </section><!-- /.page-header -->
+        <section class="mailchimp-one faq-mailchimp-one">
+            <div class="container wow fadeInUp animated">
+                <div class="inner-container">
+                    <div class="mailchimp-one__icon">
+                        <i class="fa fa-search"></i>
+                    </div><!-- /.mailchimp-one__icon -->
+                    <form action="<%=WEBSITE_URL%>faq-search" method="post" class="searchFormFaq__form">
+                        <input type="text" placeholder="Search your questions" name="title" id="title" value="<%-title%>">
+                        <button class="thm-btn mailchimp-one__btn" type="submit"><span>Search</span></button>
+                        <!-- /.thm-btn -->
+                    </form><!-- /.mailchimp-one__form -->
+                </div><!-- /.inner-container -->
+            </div><!-- /.container -->
+        </section>
+        
+        <section class="faq-one faq-page" id="faq">
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/faq-bg-1-1.png" class="faq-one__bg-shape-1" alt="">
+            <div class="container">
+                <div class="block-title text-center">
+                    <h3><%- __("front.faq.secondary_heading");%></h3>
+                </div><!-- /.block-title -->
+				
+                <div class=" accrodion-grp wow fadeIn" data-wow-duration="1500ms" data-grp-name="faq-accrodion" id="faq_loadMore" data-limit="<%=DEFAULT_LIMIT_FRONT%>" data-total="<%= DEFAULT_LIMIT_FRONT %>" >
+				<% 
+				 if(faq_data && Object.keys(faq_data).length > 0){ 
+				faq_data.forEach(function (item, index) {
+						var actClass = (index == 0) ? "active" : "";				
+					%>
+                    <div class="accrodion <%= actClass %> ">
+                        <div class="accrodion-inner">
+                            <div class="accrodion-title">
+                                <h4><%- item.question %></h4>
+                            </div>
+                            <div class="accrodion-content">
+                                <div class="inner">
+                                    <p><%- item.answer %></p>
+                                </div><!-- /.inner -->
+                            </div>
+                        </div><!-- /.accrodion-inner -->
+                    </div>
+					 <% 	}); }else{ %>
+				<%= __("front.global.no_record_found"); %>
+			<% 	} %>   %>  
+						
+                </div>
+				<input type="hidden" id="total_records_shown" name="total_records_shown" value="<%=totalRecodsShown%>">
+						<input type="hidden" id="total_records_exits" name="total_records_exits" value="<%=totalRecords%>">
+                <div class="view-more mt-5 text-center">
+                    <a href="javascript:void(0);" id="load_more" data-limit="<%=DEFAULT_LIMIT_FRONT%>" data-skip="<%=DEFAULT_LIMIT_FRONT%>" class="thm-btn cta-two__btn"><span><%- __("front.global.load_more");%></span></a>
+                </div>
+            </div><!-- /.container -->
+        </section><!-- /.faq-one -->
+		
+				<%-       include("../../elements/newsletter.html") %>
+		
+<%- contentFor("script") %>		
+<script type="text/javascript">
+	$(document).ready(function() {
+	var total_records_exits = $("#total_records_exits").val();
+	var total_records_shown = $("#total_records_shown").val();
+	
+	if(total_records_shown >= total_records_exits || total_records_exits==0 )
+	{
+		$("#load_more").hide();
+	}
+	
+		/** Function for get news result **/
+		var getFaqs = function(e){
+	
+		//	show_loader();
+			if( typeof e !== typeof undefined ){
+				e.stopImmediatePropagation();
+			}
+			var totalRecordsExist =0;
+			var totalRecordsShown =0;
+			var defaultLimit=0;
+			var limit =0;
+			var skip =0;
+			
+			 limit	 = $("#load_more").attr("data-limit");
+			 skip	 = $("#load_more").attr("data-skip");
+			
+
+			$.ajax({
+				type		: "POST",
+				data		: {
+					length 	: limit, 
+					start 	: skip,
+				},success	: function(result){
+				console.log(result.totalRecodsShown);
+					if( result.status == "success" ){
+						if( result.faq_data.length > 0 ){
+							$("#faq_loadMore").append(result.faq_data);
+							
+
+								/** re intialize accordin again */
+								    if ($('.accrodion-grp').length) {
+										var accrodionGrp = $('.accrodion-grp');
+										accrodionGrp.each(function () {
+											var accrodionName = $(this).data('grp-name');
+											var Self = $(this);
+											var accordion = Self.find('.accrodion');
+											Self.addClass(accrodionName);
+											Self.find('.accrodion .accrodion-content').hide();
+											Self.find('.accrodion.active').find('.accrodion-content').show();
+											accordion.each(function () {
+												$(this).find('.accrodion-title').on('click', function () {
+													if ($(this).parent().parent().hasClass('active') === false) {
+														$('.accrodion-grp.' + accrodionName).find('.accrodion').removeClass('active');
+														$('.accrodion-grp.' + accrodionName).find('.accrodion').find('.accrodion-content').slideUp();
+														$(this).parent().parent().addClass('active');
+														$(this).parent().parent().find('.accrodion-content').slideDown();
+													};
+
+
+												});
+											});
+										});
+
+									};
+								
+								
+								
+							 totalRecordsExist	= result.totalRecords;		
+							 totalRecordsShown	= result.totalRecodsShown;	
+							
+							 defaultLimit		= $("#faq_loadMore").data("limit");
+							 
+							
+							if(totalRecordsShown >= totalRecordsExist)
+							{
+								$("#load_more").hide();
+							}
+							
+							else{
+								$("#load_more").attr("data-skip",(totalRecordsShown));
+								$("#faq_loadMore").data("total",(totalRecordsShown+defaultLimit));
+								$("#load_more").show();
+							}
+						}
+						else{
+							$("#faq_loadMore").html('<p><%= __("front.global.no_record_found");%></p>');
+							$("#load_more").hide();
+						}
+					}else{
+						console.log(result);
+					}
+				//	hide_loader();
+				}
+			});
+		}
+
+		/** Getting result on load **/
+	//	window.addEventListener("load", getFaqs);
+
+		$("#load_more").click(getFaqs);
+	});
+</script>

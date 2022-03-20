@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<title><%= settings["Site.site_title"] %></title>
+	<!-- Bootstrap -->
+
+<link href="<%= WEBSITE_CSS_PATH%>bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="<%= WEBSITE_CSS_PATH%>owl.carousel.css" rel="stylesheet"  type="text/css">
+<link href="<%= WEBSITE_CSS_PATH%>font-awesome.min.css" rel="stylesheet"  type="text/css">
+<link href="<%= WEBSITE_CSS_PATH%>style.css" rel="stylesheet"  type="text/css">
+<link href="<%= WEBSITE_CSS_PATH%>developer.css" rel="stylesheet"  type="text/css">
+<link rel="stylesheet" href="<%= WEBSITE_CSS_PATH%>css/animate.min.css"  type="text/css">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="<%= WEBSITE_JS_PATH%>jquery.min.js"></script> 
+	</head>
+	<body>
+		<div class="banner_section"> 
+			<div class="container ">
+				<center>
+					<span class="error-content">
+						<div class="logo mt-150"> 
+							<a href="<%= WEBSITE_URL%>">
+								<figure><img src="<%= WEBSITE_IMG_URL%>logo_img.png" alt="logo" title="EGY-flyer"></figure>
+							</a> 
+						</div>
+						
+						<h1> 404 </h1>
+						<h2>Oops! That page can't be found.</h2>
+						<p>It looks like nothing was found at this location.</p>
+						<div>
+							<a href="<%= WEBSITE_URL%>" class="btn btn-danger">Go Back Now!</a>
+						</div>
+					</span>
+				</center>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+
+var screenHeight = $(document).height();
+$('.banner_section').height(screenHeight)
+
+</script>

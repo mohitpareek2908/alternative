@@ -1,0 +1,97 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.blog.edit_comment"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/comments" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ../../../elements/multilanguage_tabs.html %>
+					<!-- Multilanguage tabs -->
+					<form id="add-block" data-submit-btn-id="block-add-btn-id" method="post" class="on_click_submit" role="form">
+						<div class="tab-content mt-20">	
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="blog" class="control-label"><%= __('admin.blog.blog'); %><span class="required"> * </span> :</label>
+
+											<select class="form-control show-tick search_by_status" id="blog_id" name="blog_id">
+												<option value=""><%=__("admin.blog.select_blog");%></option>
+													<%-blog_list %>
+											</select>
+										</div>
+										<span id="blog_id_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="user" class="control-label"><%= __('admin.blog.user'); %><span class="required"> * </span> :</label>
+
+											<select class="form-control show-tick search_by_status" id="user_id" name="user_id">
+												<option value=""><%=__("admin.blog.select_user");%></option>
+													<%-user_list %>
+											</select>
+										</div>
+										<span id="user_id_error" class="error"></span>
+									</div>
+								</div>
+							</div>	
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="comment" class="control-label">
+												<%= __("admin.blog.comment"); %>
+													<span class="required">*</span>
+											</label> 
+										 
+											<input type="text" id="comment" name="comment" class="form-control" value="<%= (record && record.comment) ? record.comment : ''%>"/>
+										</div>
+										<span id="comment_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button type="button" id="block-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>/comments"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript">
+	
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+		//	updateCkeditorValue();
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('add-block',function(status,response){
+				
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>

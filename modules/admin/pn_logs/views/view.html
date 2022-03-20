@@ -1,0 +1,74 @@
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.pn_logs.details');%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<%
+						var deviceType 		= 	(typeof result !== typeof undefined && result.device_type)	? 	result.device_type	:'';
+						var deviceToken 	= 	(typeof result !== typeof undefined && result.device_token)	? 	result.device_token	:'';
+						var body 			= 	(typeof result !== typeof undefined && result.body)			? 	result.body			:'';
+						var request 		= 	(typeof result !== typeof undefined && result.request)		? 	result.request		:'';
+						var response 		= 	(typeof result !== typeof undefined && result.response)		? 	result.response		:'';
+						var created 		= 	(typeof result !== typeof undefined && result.created)		? 	result.created		:'';
+						var parseResponse	= 	response;
+						if(deviceType.toLowerCase() == "android"){
+							parseResponse 	=	(response) ? JSON.parse(response) : "";
+						}
+					%>
+					<table  class="row-border hover table table-bordered" cellspacing="0" ">
+						<tr>
+							<th class="pn_log_view_table_th"><%= __('admin.pn_logs.device_type'); %></th>
+							<td class="pn_log_view_table_td"><span><%=deviceType%></span></td>
+						</tr>
+						<tr>
+							<th class="pn_log_view_table_th"><%= __('admin.pn_logs.device_token'); %></th>
+							<td class="pn_log_view_table_td"><%=deviceToken%></td>
+						</tr>
+						<tr>
+							<th class="pn_log_view_table_th"><%= __('admin.pn_logs.status'); %></th>
+							<%if(deviceType.toLowerCase() == "android"){%>
+								<%if(parseResponse.success == SENT){%>
+									<td class="pn_log_view_table_td" ><span class="label label-success m-l-5 m-t-5"><%=__('admin.pn_logs.sent')%></span></td>
+								<%}else{%>
+									<td class="pn_log_view_table_td" ><span class="label label-danger m-l-5 m-t-5"><%=__('admin.pn_logs.failed')%></span></td>
+								<%}%>
+							<%}%>
+							<%if(deviceType.toLowerCase() == "iphone"){%>
+								<%if(response.sent && response.sent.length > 0){%>
+									<td class="pn_log_view_table_td" ><span class="label label-success m-l-5 m-t-5"><%=__('admin.pn_logs.sent')%></span></td>
+								<%}else{%>
+									<td class="pn_log_view_table_td" ><span class="label label-danger m-l-5 m-t-5"><%=__('admin.pn_logs.failed')%></span></td>
+								<%}%>
+							<%}%>
+						</tr>
+						<tr>
+							<th class="pn_log_view_table_th"><%= __('admin.pn_logs.request'); %></th>
+							<td class="pn_log_view_table_td">
+								<span><%=JSON.stringify(request)%></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="pn_log_view_table_th"><%= __('admin.pn_logs.response'); %></th>
+							<td class="pn_log_view_table"><%=JSON.stringify(parseResponse)%></td>
+						</tr>
+
+						<tr>
+							<th class="pn_log_view_table_th"  ><%= __('admin.system.created'); %></th>
+							<td class="pn_log_view_table_td"><span class="setDateTimeFormat" data-date-time="<%= (typeof result !== typeof undefined &&  result.created) ? result.created : 'N/A';%>"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

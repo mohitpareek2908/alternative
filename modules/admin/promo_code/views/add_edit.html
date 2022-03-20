@@ -1,0 +1,343 @@
+<%
+	result 			= 	(typeof result !== typeof undefined && result)			?	result 		:{};
+	var isEditable 	= 	(typeof is_editable !== typeof undefined && is_editable)?	is_editable	:"";	
+	var validFrom	=	(result.code_valid_from)	? result.code_valid_from	:"";
+	var validTo		= 	(result.code_valid_to)		? result.code_valid_to		:"";
+	var validityType= 	(result.validity_type)		? result.validity_type		:"";
+	
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= (isEditable) ? __('admin.promo_code.edit_promo_code') : __('admin.promo_code.add_promo_code'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-promo-code" data-submit-btn-id="promo-add-btn-id" method="post" class="on_click_submit" role="form" enctype="mutlipart/form-data">
+						<!-- Promo Code name and code -->
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="promo_code" class="control-label"><%= __('admin.promo_code.code'); %><span class="required"> *</span> :</label>
+										<input name="promo_code" id="promo_code" type="text" class="form-control <%- (isEditable) ? "readonly" :"";%>" value="<%=(result.promo_code) ? result.promo_code :"";%>" <%- (isEditable) ? "readonly" :"";%> />
+									</div>
+									<span id="promo_code_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="coupons_count" class="control-label"><%= __('admin.promo_code.uses_limit'); %><span class="required"> *</span> :</label>
+										<input name="coupons_count" id="coupons_count" type="text" class="form-control" value="<%=(result.coupons_count) ? result.coupons_count :"";%>"/>
+									</div>
+									<span id="coupons_count_error" class="error"></span>
+								</div>
+							</div>											
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="input-group">
+									<div class="form-lineee">
+										<label for="month" class="control-label"><%= __('admin.promo_code.user_type'); %><span class="required"> *</span> :</label>
+										<div class="row clearfix demo-icon-container demo-checkbox">
+											<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+												<div class="form-lie materialize_checkbox">
+													<input type="radio" onclick="hideUnhideClass(this)" name="user_type" value="<%= PROMO_CODE_ALL_USER %>" class="with-gap" id="all_user" <%=(result.user_type == PROMO_CODE_ALL_USER) ? "checked" : ""%> >
+													<label class="font_size_css" for="all_user"><%= __('admin.promo_code.all_user'); %></label>
+												</div>
+											</div>							
+											<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+												<div class="form-lie materialize_checkbox">
+													<input type="radio" onclick="hideUnhideClass(this)" name="user_type" value="<%= PROMO_CODE_SELECTED_USER %>" class="with-gap" id="selected_user" <%=(result.user_type == PROMO_CODE_SELECTED_USER) ? "checked" : ""%> >
+													<label class="font_size_css" for="selected_user"><%= __('admin.promo_code.selected_user'); %></label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<span id="user_type_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6 selected_user_ids">
+								<div class="form-group">
+									<div class="form-line selected_user_ids valid_location_div">
+										<label for="selected_user_ids" class="control-label"><%= __('admin.push_notification.select_users'); %><span class="required"> (Note : <%= __('admin.system.please_search_by_mobile_number'); %>)*</span> :</label>
+										<select id="selected_user_ids" name="selected_user_ids" multiple="true" class="form-control ms selectpicker" data-live-search="true" title="<%=__("admin.push_notification.please_select_users");%>">
+											<%- (isEditable) ? user_list : '' ; %>
+										</select>
+									</div>
+									<span id="selected_user_ids_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<!--<div class="row clearfix">
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-lie">
+										<label for="validity_type" class="control-label"><%= __('admin.promo_code.validity_type'); %><span class="required">* </span> :</label>
+										<br />
+										<%
+										if(typeof PROMO_VALIDITY_TYPE!== typeof undefined && Object.keys(PROMO_VALIDITY_TYPE).length > 0){
+											Object.keys(PROMO_VALIDITY_TYPE).map(key=>{
+												var selectedFlag	= (validityType && key == validityType)	? "checked" : "";%>
+												<input id="<%=key%>" name="validity_type"  class="with-gap validity_type_radio" type="radio" value="<%=key%>" <%-selectedFlag%>>
+												<label for="<%=key%>"><%= (PROMO_VALIDITY_TYPE[key]) ? PROMO_VALIDITY_TYPE[key] :""; %></label>
+										<% 	});
+										} %>
+									</div>
+									<span id="validity_type_error" class="error"></span>
+								</div>
+							</div> 
+						</div>-->
+						<div class="row clearfix validity_type_fields1">
+							<div class="col-md-6">
+	                           <label for="code_valid_from" class="control-label"><%= __('admin.promo_code.coupons_valid_from'); %><span class="required"> *</span> :</label>
+	                            <div class="input-group"> 
+									<div class="form-line">
+	                                    <input name="code_valid_from" id="code_valid_from" type="text" class="form-control" placeholder="<%=DATEPICKER_DATE_EXAMPLE%>" readonly='true'/>
+	                                </div>
+	                                <span id="code_valid_from_error" class="error"></span>
+	                            </div>
+	                        </div>							
+							<div class="col-md-6">
+	                           <label for="code_valid_to" class="control-label"><%= __('admin.promo_code.coupons_valid_to'); %><span class="required"> *</span> :</label>
+	                            <div class="input-group">
+	                                
+	                                <div class="form-line">
+	                                    <input name="code_valid_to" id="code_valid_to" type="text" class="form-control" placeholder="<%=DATEPICKER_DATE_EXAMPLE%>" readonly='true'/>
+	                                </div>
+	                                <span id="code_valid_to_error" class="error"></span>
+	                            </div>
+	                        </div>
+						</div>
+	                    <div class="row clearfix">    
+	                        <div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="discount_type" class="control-label"><%= __('admin.promo_code.promo_discount_type'); %><span class="required"> *</span> :</label><br>
+										<select name="discount_type" id="discount_type" class="form-control show-tick">
+										
+										<option value=""><%=__("Select Discount Type");%></option>
+											<%
+											if(typeof PROMO_DISCOUNT_TYPE_DROPDOWN!== typeof undefined && PROMO_DISCOUNT_TYPE_DROPDOWN.length > 0){
+												PROMO_DISCOUNT_TYPE_DROPDOWN.map(searchStatus=>{
+												var selectedFlag	= (typeof searchStatus.id !== typeof undefined && searchStatus.id  && searchStatus.id == result.discount_type)	? "selected" : "";
+												
+											%>
+												<option value="<%=searchStatus.id%>" <%=selectedFlag%> ><%=searchStatus.name%></option>
+											<% 
+												});
+											} %>
+										</select>
+									</div>
+									<span id="discount_type_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="discount_value" class="control-label"><span class="changeLabel"></span><span class="required"> *</span> :</label>
+										<input name="discount_value" id="discount_value" type="text" class="form-control" value="<%=(result.discount_value) ? result.discount_value :"";%>"/>
+									</div>
+									<span id="discount_value_error" class="error"></span>
+								</div>
+							</div>
+						</div>		
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="code_description" class="control-label"><%= __('admin.promo_code.code_description'); %><span class="required"> *</span> :</label>
+										<textarea name="code_description" id="code_description" class="form-control resize-none"><%=(result.code_description) ? result.code_description :"";%></textarea>
+									</div>
+									<span id="code_description_error" class="error"></span>
+								</div>
+							</div>			
+						</div>
+						<button type="button" id="promo-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>bootstrap-datetimepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>ajax-bootstrap-select/bootstrap-select.min.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>ajax-bootstrap-select/ajax-bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PATH%>ajax-bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="<%=WEBSITE_ADMIN_JS_PATH%>ajax-bootstrap-select/ajax-bootstrap-select.js"></script>
+	
+	<script type="text/javascript">
+	
+	
+		$(document).ready(function(){
+			/**
+			 * Javascript function to submit the form.
+			 */
+			$('.btn-submit').click(function(){
+				var btnId = $(this).attr('id');
+				ajax_submit('add-promo-code',function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});
+			
+			
+			
+			/**
+			 * Javascript function to change the label.
+			 */
+			showSelectedLabel();
+			$('#discount_type').on('change', function(){
+				$("#discount_value").val('');
+				showSelectedLabel();
+			});
+			/**
+			 * Javascript function to show and hide the validity type fields.
+			 */
+			showValidityTypeFields();
+			$('.validity_type_radio').on('change', function(){
+				showValidityTypeFields();
+			});
+			
+			/**
+			 * Javascript function to initialize valid from date
+			 */
+            $('#code_valid_from').datetimepicker({
+            	format			: 'YYYY-MM-DD HH:mm',
+            	minDate			: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"),
+            	date			: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"),
+            	ignoreReadonly	: true,
+            }).on("dp.change", function(e){
+            	$('#code_valid_to').data("DateTimePicker").minDate(e.date);
+            });
+			
+			/**
+             * Javascript function to initialize datepicker for valid to date.
+             */
+            var dateNow	= moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"); 
+            $('#code_valid_to').datetimepicker({
+            	format			: 'YYYY-MM-DD HH:mm',
+            	minDate			: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD HH:mm"),
+            	date			: moment(dateNow).hours(23).minutes(59).seconds(59).milliseconds(0),
+            	ignoreReadonly	: true,
+            	useCurrent		: false
+            });
+            
+            /**
+			 * Set valid to and valid from value
+			 */
+          
+				var validFromDate	= 	"";
+				var validToDate		= 	"";
+				
+				<% if(validFrom){ %>
+					validFromDate =	moment("<%=validFrom%>").tz(DEFAULT_TIME_ZONE).format('YYYY-MM-DD HH:mm');
+				<% } %>	
+				<% if(validTo){ %>
+					validToDate =	moment("<%=validTo%>").tz(DEFAULT_TIME_ZONE).format('YYYY-MM-DD HH:mm');
+				<% } %>	
+				
+				$('#code_valid_to').val(validToDate); 
+				$('#code_valid_from').val(validFromDate);
+			
+        });
+
+		/**
+		 * Javascript function to change discount label 
+		 */
+		function showSelectedLabel(){
+			var label = $('#discount_type').find(':selected').text();
+			$(".changeLabel").html(label);
+		}// end showSelectedLabel()
+
+		/**
+		 * Javascript function to show and hide the validity type fields 
+		 */
+		function showValidityTypeFields(){
+			var value = $("input[name='validity_type']:checked").val();
+			
+			if(value == "<%=PROMO_CUSTOM_VALIDITY_TYPE%>"){
+				$(".validity_type_fields").show();
+			}else{
+				$(".validity_type_fields").find('input').val('');
+				$(".validity_type_fields").hide();
+			}			
+		}// end showValidityTypeFields()
+		
+		
+		/** This function are used to seledtes users show div */
+			if('<%= result.user_type %>'=='<%= PROMO_CODE_SELECTED_USER %>'){
+				$(".selected_user_ids").show();
+			}else{				
+				$(".selected_user_ids").hide();
+			}
+			
+			function hideUnhideClass(selectObject){
+				if(selectObject.value=='<%= PROMO_CODE_SELECTED_USER %>'){
+					$(".selected_user_ids").show();
+				}else{
+					$(".selected_user_ids").hide();
+				}
+			}
+			
+			var userIds	=	'<%= result.selected_user_ids %>';			
+		/** 
+        **	Function are used to get users list
+        ***/
+        $('#selected_user_ids').selectpicker().ajaxSelectPicker({
+            ajax: {
+                url: '<%=admin_list_url%>/get_user_list/',
+                type: 'POST',
+                dataType: 'json',
+                data    : function() { // This is a function that is run on every request
+                    return {
+                        q       :   '{{{q}}}',
+                        user_type :   $("#user_type").val()//this is an input text HTML
+                    };
+                }
+                // data: { q: '{{{q}}}', page: $('#user_type').val()}
+            },
+            minLength: 3,
+            // function to preprocess JSON data
+            preprocessData: function (data) {
+                var i, l = data.result.length, selectOptions = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        selectOptions.push($.extend(true, data.result[i], {
+                            text : data.result[i].full_name+" ("+data.result[i].mobile_number+")",
+                            value: data.result[i]._id,
+                            data : { /* subtext: data.result[i].state_name */ }
+                        }));
+                    }
+                }
+                return selectOptions;
+            },
+        });
+	</script>

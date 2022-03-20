@@ -1,0 +1,141 @@
+<%
+	var result			= (typeof result !== typeof undefined && result)	?	result					:{};
+	var starRatingcriteria = (result && result.star_rating_criteria) ? result.star_rating_criteria :[];
+	
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.review_raing.review_raing_details'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>/<%=listing_id%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+					<!-- Only For Mobile View-->
+					<ul class="header-dropdown m-r--5 visible-xs">
+						<li class="dropdown">
+							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<i class="material-icons">more_vert</i>
+							</a>
+							<ul class="dropdown-menu pull-right m-w-200">
+								<li>
+									<a href="<%=admin_list_url%>" >
+										<i class="material-icons">keyboard_backspace</i><%= __("admin.system.back"); %>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"><%=__('admin.review_rating.title'); %></th>
+							<td><%=(typeof result.title !== typeof undefined)	? result.title	: 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%=__('admin.review_rating.user_name'); %></th>
+							<td><%=(typeof result.user_name !== typeof undefined)	? result.user_name	: 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%=__('admin.university.university_name'); %></th>
+							<td><%=(typeof result.university_name !== typeof undefined)	? result.university_name	: 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%=__('admin.review_rating.remark'); %></th>
+							<td><%=(typeof result.remark !== typeof undefined)	? result.remark	: 'N/A';%></td>
+						</tr>
+						
+						
+						<tr>
+							<th class="text-right"><%= __('admin.system.status'); %></th>
+							<%
+								var status 	=	(result.is_approved && result.is_approved == ACTIVE) ? '<span class="label label-success m-r-5">'+__("admin.system.approve")+'</span>': '<span class="label label-info m-r-5">'+__("admin.system.pending")+'</span>';
+							%>
+							<td><%- status%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'';%>"></span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" class="text-center">
+								<h4><%= __('admin.review_raing.star_rating_crietria'); %></h4>
+							</td>
+						</tr>
+						<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+
+							<tr>
+								
+								
+									<%
+								master_criteria_array.map((masterRecords,index)=>{
+									starRatingcriteria.map((records,newIndex)=>{
+										if(String(masterRecords._id) == String(records.star_rating_criteria_id) ){
+										%>
+										<td width="15%"><%=masterRecords.name%></td><%
+										}
+									});
+								});	
+								%>
+							
+								
+							</tr>
+							<tr>
+								
+								
+									<%
+								starRatingcriteria.map((records)=>{
+									%>
+									<td width="15%">
+										<span class="course_rating_new" data-score="<%=records.count%>"></span>
+									</td><%
+								});
+								%>
+								
+							</tr>
+
+						</table>
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery.raty.css" >
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery.raty.js"></script>
+	<script type="text/javascript">
+		/** Function to submit kyc rejection form*/
+		$(document).ready(function() {
+			
+			$('.course_rating_new').raty({
+				path : WEBSITE_ADMIN_IMG_URL,
+				targetKeep : true,
+				precision : false,
+				half : false,
+				readOnly : true,
+				scoreName : '',
+				score: function() {
+				return $(this).attr('data-score');
+				}
+			});
+
+		});
+	</script>
+
+<!-- User KYC Detail -->
+
+

@@ -1,0 +1,136 @@
+<%
+	var notificationData 	= 	(typeof notification !== typeof undefined && notification) ? notification :[];
+	var latestRidesData 	= 	(typeof latest_rides !== typeof undefined && latest_rides) ? latest_rides :[];
+%>
+<div class="container-fluid">
+	<!-- <div class="row clearfix">
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+'users/kid'%>" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-pink hover-expand-effect cursor-pointer all_patients_color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_kids"); %></div>
+						<div class="number count-to" data-from="0" data-to='<%= (stats["total_kids"]) ? stats["total_kids"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+'users/teen'%>" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-green hover-expand-effect cursor-pointer all_patients_color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_teens"); %></div>
+						<div class="number count-to" data-from="0" data-to='<%= (stats["total_teens"]) ? stats["total_teens"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+'users/adult'%>" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-purple hover-expand-effect cursor-pointer all_patients_color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_adults"); %></div>
+						<div class="number count-to" data-from="0" data-to='<%= (stats["total_adults"]) ? stats["total_adults"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+'posts'%>" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-blue hover-expand-effect cursor-pointer all_patients_color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_posts"); %></div>
+						<div class="number count-to" data-from="0" data-to='<%= (total_posts) ? total_posts : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+'campaigns'%>" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-red hover-expand-effect cursor-pointer all_patients_color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_campaigns"); %></div>
+						<div class="number count-to" data-from="0" data-to='<%= (total_active_campaign) ? total_active_campaign : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			 <div class="card">
+				<div class="header">
+					<h2><%= __("admin.dashboard.users_registration_chart"); %></h2>
+				</div>
+				<div class="body">
+					<canvas id="bar_chart" height="300"></canvas>
+				</div>
+			</div>
+		</div>
+		
+		
+       
+	</div> -->
+	
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery-countto/jquery.countTo.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		<%
+			var usersData 	= [];
+			var year  		= "";
+			var month  		= "";
+			var monthyear  	= "";
+			if(result){
+				for(var i=0; i < result.length; i++) {
+			
+					month					= (result[i]["_id"]["month"]) 	? result[i]["_id"]["month"] :"";
+					year					= (result[i]["_id"]["year"]) 	? result[i]["_id"]["year"]	:"";
+					monthyear				= month+"-"+year;
+					usersData[i]            = {};
+					usersData[i][monthyear] = {};
+					
+					usersData[i][monthyear]["total_kids"]		= (result[i]["total_kids"]) 	? result[i]["total_kids"] : 0;
+					usersData[i][monthyear]["total_teens"]		= (result[i]["total_teens"]) 	? result[i]["total_teens"] : 0;
+					usersData[i][monthyear]["total_adults"]		= (result[i]["total_adults"]) 	? result[i]["total_adults"] : 0;
+					// if(typeof result_campaign[i]["total_campaign"] != typeof undefined){
+					// 	consoleLog(typeof result_campaign[i]["total_campaign"] )
+					// }
+					if(result_campaign[i]){
+								usersData[i][monthyear]["total_campaign"]	= (result_campaign[i]["total_campaign"]) 	? result_campaign[i]["total_campaign"] : 0;
+					}
+					if(result_post[i]){
+						usersData[i][monthyear]["total_posts"]		= (result_post[i]["total_posts"]) 	? result_post[i]["total_posts"] : 0;
+					}
+					
+				}
+			}
+
+
+
+		%>
+		var userRecords 	=	<%- JSON.stringify(usersData); %>;
+	
+		
+		$(function () {
+			$('.count-to').countTo();
+		});
+	</script>
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.css" rel="stylesheet">
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>raphael/raphael.min.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.js" type="text/javascript"></script>
+	
+	<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/chartjs.js" type="text/javascript"></script>
+	

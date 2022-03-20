@@ -1,0 +1,24 @@
+        <section class="mailchimp-one">
+            <div class="container wow fadeInUp" data-wow-duration="1500ms">
+                <div class="inner-container">
+                    <div class="mailchimp-one__icon">
+                        <i class="apton-icon-mail"></i>
+                    </div><!-- /.mailchimp-one__icon -->
+                    <form id="add-newsletter" action="<%=WEBSITE_URL%>news_letter" method="post" role="form" class="mailchimp-one__form">
+                        <input type="text" placeholder="Enter your email address" id="email" name="email">
+						 
+						 <button type="submit" class="thm-btn mailchimp-one__btn"><span><%- __("front.global.register_now");%></span></button>
+					
+                        <!-- /.thm-btn -->
+                    </form><!-- /.mailchimp-one__form -->
+					<div id="newsletter_message" class="alert alert-dismissible d-none mt-3" role="alert">
+                <span id="newsletter_form_message"></span>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                </div><!-- /.inner-container -->
+            </div><!-- /.container -->
+        </section><!-- /.mailchimp-one -->
+		
+<%- contentFor("script") %>	

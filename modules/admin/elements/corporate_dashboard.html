@@ -1,0 +1,84 @@
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-green hover-expand-effect cursor-pointer corporate_dashboard">
+					<div class="icon">
+						<i class="material-icons">account_balance_wallet</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.corporate.dashboard.available_balance"); %> </div>
+						<span class="show_currency"><%-CURRENCY_SYMBOL %> </span><div class="number count-to" data-from="0" data-to='<%= (stats["available_balance"]) ? currencyFormatOnDashboard(stats["available_balance"]) : 0; %>' data-speed="1000" data-fresh-interval="20"> </div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-red hover-expand-effect cursor-pointer corporate_dashboard">
+					<div class="icon">
+						<i class="material-icons">person</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.corporate.dashboard.total_expense"); %></div>
+						<span class="show_currency"><%-CURRENCY_SYMBOL %> </span><div class="number count-to" data-from="0" data-to='<%= 0 %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+				<div class="info-box bg-blue hover-expand-effect cursor-pointer corporate_dashboard">
+					<div class="icon">
+						<i class="material-icons">person</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.corporate.dashboard.rides_completed"); %></div>
+						<span class="show_currency"><%-CURRENCY_SYMBOL %> </span><div class="number count-to" data-from="0" data-to='<%= 0 %>' data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			 <div class="card">
+				<div class="header">
+					<h2><%= __("admin.dashboard.users_registration_chart"); %></h2>
+				</div>
+				<div class="body">
+					<canvas id="bar_chart" height="300"></canvas>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery-countto/jquery.countTo.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		<%
+			var usersData 	= [];
+			var year  		= "";
+			var month  		= "";
+			var monthyear  	= "";
+			if(result){
+				for(var i=0; i < result.length; i++) {
+					month					= (result[i]["_id"]["month"]) 	? result[i]["_id"]["month"] :"";
+					year					= (result[i]["_id"]["year"]) 	? result[i]["_id"]["year"]	:"";
+					monthyear				= month+"-"+year;
+					usersData[i]            = {};
+					usersData[i][monthyear] = {};
+					
+					usersData[i][monthyear]["total_riders"]	= (result[i]["total_riders"]) 	? result[i]["total_riders"] : 0;
+					//~ usersData[i][monthyear]["total_drivers"]= (result[i]["total_drivers"]) 	? result[i]["total_drivers"] : 0;
+					usersData[i][monthyear]["total_drivers"]= 0;
+				}
+			}
+		%>
+		var userRecords =	<%- JSON.stringify(usersData); %>;
+		$(function () {
+			$('.count-to').countTo();
+		});
+	</script>
+
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/corporate_chartjs.js" type="text/javascript"></script>

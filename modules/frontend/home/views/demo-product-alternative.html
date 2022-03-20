@@ -1,0 +1,295 @@
+
+	
+  <section id="heroProduct" class="d-flex justify-content-center align-items-center">
+  
+        <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+			<div class="row" data-aos="zoom-in" data-aos-delay="100">
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Created By</h5> 
+						<p class="card-text"><%= product_data.product_creator %></p>
+					  </div>
+					</div>
+				</div>
+				
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Liscence Model</h5>
+						<p class="card-text"><%= product_data.product_liscence_cost %></p>
+					  </div>
+					</div>
+				</div>
+			</div>	
+			<div class="row" data-aos="zoom-in" data-aos-delay="100">
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Product Type</h5>
+						<p class="card-text"><%= product_data.product_type %></p>
+					  </div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Alternatives </h5>
+						<p class="card-text"><%= product_data.product_alternative_count %></p>
+					  </div>
+					</div>
+				</div>
+			</div>	
+				
+				
+          </div>
+		 
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+		  <div class="col-lg-12 col-md-4 ">
+				 <h1><span class="numberSquare"><%= product_data.product_name.charAt(0) %></span><%= product_data.product_name %></h1>
+				<h2><%= product_data.product_short_description %></h2>
+			</div>	
+	
+          </div>
+        </div>
+
+      </div>
+	  
+	  
+	  
+
+	
+  </section><!-- End Hero -->
+  
+    <main id="main">
+
+ 
+
+  
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us bg-custom-grey">
+      <div class="container" data-aos="fade-up">
+		<div class="section-title mb-3">
+          <h2>Popular </h2>
+          <p>Alternative Products </p>
+        </div>
+		
+        <div class="row">
+
+		  
+		   
+		   
+		   
+		   
+		   
+		   
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-12" id="faq_loadMore"  >
+
+          <%  if(product_alternative_data && Object.keys(product_alternative_data).length > 0){ 
+            product_alternative_data.forEach(function (item, index) {   %>
+            <div class="bg-white p-3 rounded mt-2">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="d-flex flex-column justify-content-center align-items-center icon-container bg-custom-green text-white mb-2">
+						<span class="mt-4 display-1">
+              <a class="anchorGreen" href="<%=WEBSITE_URL%>product-details/<%= item.product_slug %>">
+							<h1 class="display-1"><strong><%= item.product_name.charAt(0) %></strong></h1></a>
+							
+						</span>
+						<span class="mb-4 mx-1 my-1 text-center font-weight-bold"> <a class="anchorGreen" href="<%=WEBSITE_URL%>product-details/<%= item.product_slug %>"><%=	item.product_name %></a></span>
+						
+						</div>
+                    </div>
+
+                    <div class="col-md-6 border-right">
+                        <div class="listing-title">
+                          <a href="<%=WEBSITE_URL%>product-details/<%= item.product_slug %>">
+                            <h2><%=	item.product_name %></h2>
+                          </a>
+                        </div>
+                       
+                        <div class="description">
+                            <p><%=	item.product_short_description %></p>
+                        </div>
+                       
+                    </div>
+                    <div class="d-flex col-md-3">
+                        <div class="d-flex flex-column justify-content-start user-profile w-100">
+                          
+                            <div class="progresses"><span><i class="bi bi-file-code text-success"></i> <%=	(item.product_creator) ? item.product_creator :"N/A" %></span> 
+                                <div class="progress mt-1" style="height: 5px;" >
+                                    <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="progresses"><span><i class="bi bi-coin text-success"></i> <%=	item.product_liscence_cost %></span>
+                                <div class="progress mt-1" style="height: 5px;" >
+                                    <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="progresses"><span><i class="bi bi-hand-thumbs-up-fill text-success"></i> <%=	item.product_likes %> Likes</span>
+                                <div class="progress mt-1" style="height: 5px;" >
+                                    <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="progresses"><span><i class="bi bi-card-checklist text-success"></i> <%=	(item.product_features).length %> Features</span>
+                              <div class="progress mt-1" style="height: 5px;" >
+                                  <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                              </div>
+                            </div>
+                            <div class="progresses"><span><i class="bi bi-tag-fill text-success"></i> <%=	(item.product_tags).length %> Tags</span>
+                              <div class="progress mt-1" style="height: 5px;" >
+                                  <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                              </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% })  }else{ %>
+              <div class="bg-white p-3 rounded mt-2">
+                <div class="row">
+                  <p>No Alternatives Found</p>
+                 </div>
+              </div>    
+
+
+          <%  } %>
+      
+            
+			
+		
+			
+			
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+	<input type="hidden" id="total_records_shown" name="total_records_shown" value="<%= total_recods_shown %>">
+	<input type="hidden" id="total_records_exits" name="total_records_exits" value="<%= total_products %>">
+ 
+<a href="javascript:void(0);" id="load_more" data-limit="<%=DEFAULT_LIMIT_FRONT%>"  data-skip="<%=DEFAULT_LIMIT_FRONT%>" class="moreBTNInnerclas">Load More Alternatives</a>
+</div>
+
+        
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+
+    <%- contentFor("script") %>		
+    <script type="text/javascript">
+      $(document).ready(function() {
+      
+      var total_records_exits = $("#total_records_exits").val();
+      var total_records_shown = $("#total_records_shown").val();
+      $(document).keypress(
+          function(event){
+          if (event.which == '13') {
+            event.preventDefault();
+          }
+        });
+      
+      if(parseInt(total_records_shown) >= parseInt(total_records_exits) || parseInt(total_records_exits)==0 )
+      {
+        
+        $("#load_more").hide();
+      }
+    
+      
+        /** Function for get news result **/
+        var getFaqs = function(e){
+    
+        //	show_loader();
+          if( typeof e !== typeof undefined ){
+            e.stopImmediatePropagation();
+          }
+          var totalRecordsExist =0;
+          var totalRecordsShown =0;
+          var defaultLimit=0;
+          var limit =0;
+          var skip =0;
+          var productTitle = $("#product_title").val();
+           limit	 = $("#load_more").attr("data-limit");
+           skip	 = $("#load_more").attr("data-skip");
+          
+    
+          $.ajax({
+            type		: "POST",
+            data		: {
+              length 	: limit, 
+              start 	: skip
+            },success	: function(result){
+            console.log(result.total_recods_shown);
+              if( result.status == "success" ){
+                if( result.product_alternative_data.length > 0 ){
+                  $("#faq_loadMore").append(result.product_alternative_data);
+                    /** re intialize accordin again */
+                        if ($('.accrodion-grp').length) {
+                        var accrodionGrp = $('.accrodion-grp');
+                        accrodionGrp.each(function () {
+                          var accrodionName = $(this).data('grp-name');
+                          var Self = $(this);
+                          var accordion = Self.find('.accrodion');
+                          Self.addClass(accrodionName);
+                          Self.find('.accrodion .accrodion-content').hide();
+                          Self.find('.accrodion.active').find('.accrodion-content').show();
+                          accordion.each(function () {
+                            $(this).find('.accrodion-title').on('click', function () {
+                              if ($(this).parent().parent().hasClass('active') === false) {
+                                $('.accrodion-grp.' + accrodionName).find('.accrodion').removeClass('active');
+                                $('.accrodion-grp.' + accrodionName).find('.accrodion').find('.accrodion-content').slideUp();
+                                $(this).parent().parent().addClass('active');
+                                $(this).parent().parent().find('.accrodion-content').slideDown();
+                              };
+    
+    
+                            });
+                          });
+                        });
+    
+                      };
+                    
+                    
+                   totalRecordsExist	= result.total_products;		
+                   totalRecordsShown	= result.total_recods_shown;		
+                  
+                   defaultLimit		= $("#faq_loadMore").data("limit");
+                   
+                  
+                  if(totalRecordsShown >= totalRecordsExist)
+                  {
+                    $("#load_more").hide();
+                  }
+                  
+                  else{
+                    $("#load_more").attr("data-skip",(totalRecordsShown));
+                    $("#faq_loadMore").data("total",(totalRecordsShown+defaultLimit));
+                    $("#load_more").show();
+                  }
+                }
+                else{
+                  $("#faq_loadMore").html('<p><%= __("front.global.no_record_found");%></p>');
+                  $("#load_more").hide();
+                }
+              }else{
+                console.log(result);
+              }
+            //	hide_loader();
+            }
+          });
+        }
+    
+        /** Getting result on load **/
+      //	window.addEventListener("load", getFaqs);
+    
+        $("#load_more").click(getFaqs);
+      });
+</script>

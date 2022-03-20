@@ -1,0 +1,154 @@
+<!-- Header Section End -->
+ <section class="page-header">
+            <div class="container">
+                <h2><%= __("front.contact.banner_title");%></h2>
+                <ul class="list-unstyled thm-breadcrumb">
+                    <li><a href="<%= WEBSITE_URL %>">Home</a></li>
+                    <li class="activepage"><span>Contact Us</span></li>
+                </ul><!-- /.list-unstyled -->
+            </div><!-- /.container -->
+        </section><!-- /.page-header -->
+        
+        
+        <div class="contact_section contact_section_page">
+  <div class="container">
+      
+            <div class="row justify-content-center">
+                    
+                   <!-- <div class="col-lg-4 col-md-6 wow fadeInDown" data-wow-duration="1500ms">
+                        <div class="service-one__single">
+                            <div class="service-one__inner">
+                                <div class="service-one__circle"></div>
+                                <div class="service-one__icon">
+                               <figure><img src="<%=WEBSITE_IMG_URL%>/phone_icon.svg" alt="img"></figure>
+                                </div>
+								<h3>Phone Number</h3>
+                              <p><%- settings["Site.phone_number"]; %></p>
+		  
+                              
+                            </div>
+                        </div>
+                    </div> -->
+                   <!-- <div class="col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration="1500ms">
+                        <div class="service-one__single">
+                            <div class="service-one__inner">
+                                <div class="service-one__circle"></div>
+                                <div class="service-one__icon">
+                               <figure><img src="<%=WEBSITE_IMG_URL%>/address_icon.svg" alt="img"></figure>
+                                </div>
+                                <h3>Address</h3>
+                              <p><%- settings["Site.address"]; %> </p>
+
+                            </div>
+                        </div>
+                    </div>--->
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1500ms">
+                        <div class="service-one__single">
+                            <div class="service-one__inner">
+                                <div class="service-one__circle"></div><!-- /.service-one__circle -->
+                                <div class="service-one__icon">
+                                      <figure><img src="<%=WEBSITE_IMG_URL%>/email_icon.svg" alt="img"></figure>
+                                </div><!-- /.service-one__icon -->
+								<h3>Email Address</h3>
+                              <p><%- settings["Site.email"]; %> </p>
+		  
+                              
+                            </div><!-- /.service-one__inner -->
+                        </div><!-- /.service-one__single -->
+                    </div><!-- /.col-lg-3 col-md-6 -->
+         
+            </div><!-- /.row -->   
+ 
+  </div>
+
+        
+
+        <section class="contact-one" id="contact">
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/contact-bg-shape-1-1.png" class="contact-one__bg-shape-1" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <form  id="add-contact" action="<%=WEBSITE_URL%>contact-us" method="post" role="form"  class="contact-form-validated contact-one__form">
+                            <div class="block-title">
+                                <p><%- __("front.contact.secondary_heading");%></p>
+                                <h3><%- __("front.contact.third_heading");%></h3>
+                            </div><!-- /.block-title -->
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input id="full_name" type="text" placeholder="<%= __('front.contact.full_name');%>" name="full_name">
+                                    </div>
+									
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input id="email" type="text" placeholder="<%= __('front.contact.email_address');%>" name="email">
+                                    </div>
+									
+                                </div><!-- /.col-lg-6 -->
+                                
+                                <div class="col-lg-6">
+                                       <div class="form-group">
+                                        <input id="phone" type="text" placeholder="<%= __('front.contact.phone_number');%>" name="phone">
+                                       </div>
+									  
+                                </div><!-- /.col-lg-6 -->
+                                
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="<%= __('front.contact.subject');%>"  id="subject" name="subject">
+                                    </div>
+									
+                                </div><!-- /.col-lg-6 -->
+                                
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <textarea id="message" placeholder="<%= __('front.contact.message_placeholder');%>" name="message"></textarea>
+                                    </div>
+									
+                                </div><!-- /.col-lg-12 -->
+                                
+                                
+                                
+                                <div class="col-lg-12 text-left">
+								 <div class="captcha-image">
+                                     <div class="g-recaptcha" data-sitekey="6LfGQ1YdAAAAAK49ukhfie4sUQAxpE7vlqD12zR0"></div>
+									
+								</div>	
+								   <button type="submit" class="btn btn-primary thm-btn contact-one__btn"><span>Send
+                                            Message</span></button>
+                                    <!-- /.thm-btn contact-one__btn -->
+                                </div><!-- /.col-lg-12 -->
+                            </div><!-- /.row -->
+                        </form><!-- /.contact-one__form -->
+						
+						
+						<div id="contact_message" class="alert alert-dismissible d-none mt-3" role="alert">
+							<span id="contact_form_message"></span>.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+			
+
+                    </div><!-- /.col-lg-7 -->
+                    <div class="col-lg-5 d-flex wow fadeInRight" data-wow-duration="1500ms">
+                        <div class="my-auto">
+                            <div class="contact-one__image">
+                                <img src="<%=WEBSITE_IMG_URL%>/resources/contact-1-1.jpg" alt="">
+                            </div><!-- /.contact-one__image -->
+                        </div><!-- /.my-auto -->
+                    </div><!-- /.col-lg-5 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.contact-one -->
+
+</div>
+		<%-       include("../../elements/newsletter.html") %>
+		
+		
+		
+
+<%- contentFor("script") %>
+	 <script src="https://www.google.com/recaptcha/api.js"></script>
+

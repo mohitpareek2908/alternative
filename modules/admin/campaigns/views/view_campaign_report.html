@@ -1,0 +1,127 @@
+<%
+	var result				=	(typeof result !== typeof undefined && result) ? result	:{};
+	var status				=	(result.status)	?	result.status	:"";
+	var validityType		=	(result.validity_type)	?	result.validity_type	:"";
+	var couponsUsed			=	(result.coupons_used)	?	result.coupons_used		:0;
+	var couponsCount		=	(result.coupons_count)	?	result.coupons_count	:0;
+	var statusTitle			=	(PROMO_CODE_STATUS_DROPDOWN[result.status] && PROMO_CODE_STATUS_DROPDOWN[result.status]["title"])		?	PROMO_CODE_STATUS_DROPDOWN[result.status]["title"] 		:"";
+	var statusLabelClass	=	(PROMO_CODE_STATUS_DROPDOWN[result.status] && PROMO_CODE_STATUS_DROPDOWN[result.status]["label_class"])	?	PROMO_CODE_STATUS_DROPDOWN[result.status]["label_class"]:"";
+	var budget 				= (typeof result.budget !== typeof undefined)	? result.budget	: 0;
+	var remainingBudget 	= (typeof result.remaining_budget !== typeof undefined)	? result.remaining_budget	: 0;
+	let postMedia			=(result.post_media) ? result.post_media : [];
+%>	
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.ad_managements.ad_managements_campaign_report');%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0">
+						<tr>
+							<th class="text-right" width="25%"><%= __("admin.banner.image"); %></th>
+							
+							<td >
+								<div class="body show_post_image">
+								<% if(result.post_type == "image")	{  %>
+								<% if(postMedia.length > 0){ %>
+										<% let imageName = (postMedia[0].media) ? postMedia[0].media : "";%>
+										<img src="<%= CAMPAIGN_URL+imageName%>?dim=400X400&type=resize" alt="Profile image" class=" img-responsive" />
+									
+								<% } }else{ %>
+										<% let videoName = (postMedia[0].media) ? postMedia[0].media : "";%>
+										<iframe src="<%= CAMPAIGN_URL+videoName%>" width="auto" height="auto" style="border:none;"></iframe>
+								<% } %>	
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.name'); %></th>
+							<td><%= (result.name) ? result.name :'';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.description'); %></th>
+							<td><%= (result.description) ? result.description :'';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.age_type'); %></th>
+							<td><%= (result.age_type) ? result.age_type : 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.interest'); %></th>
+							<td><%= (result.categories_details) ? result.categories_details : 'N/A';%></td>
+						</tr>
+							
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.ad_managements.campaign_type'); %></th>
+							<td><%= (result.campaign_type) ? result.campaign_type :'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.website_url'); %></th>
+							<td><%= (result.website_url) ? result.website_url :'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.budget'); %></th>
+							<td><%=currencyFormat(budget)%></td>
+						</tr> 
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.view_count'); %></th>
+							<td><%= (result.view_count) ? result.view_count :'N/A';%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.total_click'); %></th>
+							<td><%= (result.total_click) ? result.total_click :'N/A';%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.total_kid_view'); %></th>
+							<td><%= (result.total_kid_view) ? result.total_kid_view :'N/A';%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.total_teen_view'); %></th>
+							<td><%= (result.total_teen_view) ? result.total_teen_view :'N/A';%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.total_adult_view'); %></th>
+							<td><%= (result.total_adult_view) ? result.total_adult_view :'N/A';%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.cost_per_view'); %></th>
+							<td><%= (result.cost_per_view) ? result.cost_per_view :'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.remaining_budget'); %></th>
+							<td><%=currencyFormat(remainingBudget)%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.start_date'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.duration_start_date) ? result.duration_start_date : 'N/A';%>"></span></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="30%"><%= __('admin.campaigns.end_date'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.duration_end_date) ? result.duration_end_date : 'N/A';%>"></span></td>
+						</tr>	
+					
+
+						<tr>
+							<th class="text-right"><%= __('admin.system.modified'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.modified) ? result.modified : 'N/A';%>"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

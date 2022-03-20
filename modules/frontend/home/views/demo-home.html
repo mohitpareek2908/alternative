@@ -1,0 +1,251 @@
+
+  
+    <main id="main">
+	    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbsHome" data-aos="fade-in">
+      <div class="container">
+        <h1 class="mb-4" >Welcome to XYZ</h1>
+        <p class="mt-4 mb-4" >If your are looking for any information realted to any product or services globally or looking for alternatives of any product or services then XYZ is the first and last stop for you.</p>
+			<div class="active-cyan-3 active-cyan-4 mb-4">
+
+			<!-- Search form -->
+			<form name="productSearch" id="productSearch" method="post" autocomplete="off">
+				<div class="input-group mb-3">
+				  <input type="text" name="product_title" id="product_title" class="form-control" placeholder="Search Products" aria-label="Recipient's username" aria-describedby="basic-addon2">
+				  <div class="input-group-append">
+					<button class="input-group-text btn btn-success" id="productSearchBtn" name="productSearchBtn" type="button">Go!</button>
+				  </div>
+				</div>
+
+			</form> 
+			 
+			</div>
+			<a href="<%=WEBSITE_URL%>products" class="moreBTNHomeclas">View All Products</a>
+			<a href="courses.html" class="moreBTNHomeclas">View Products Company Wise</a>
+			<a href="<%=WEBSITE_URL%>tags" class="moreBTNHomeclas">View Products Tags Wise</a>
+			<a href="<%=WEBSITE_URL%>features" class="moreBTNHomeclas">View Products Feature Wise</a>
+      </div>
+    </div><!-- End Breadcrumbs -->
+	
+
+    <!-- ======= Counts Section ======= --->
+    <section id="counts" class="counts section-bg">
+      <div class="container">
+
+        <div class="row counters">
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Products</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Companies</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Features</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Tags</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+	
+	<!-- ======= Popular Products Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title mb-3">
+          <h2>Popular</h2>
+          <p>Products</p>
+        </div>
+		
+			    <!-- ======= Features Section  ======= ---->
+    <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+		<% demo_data.forEach(function (item, index) {    %>
+		
+          <div class="col-lg-3 col-md-4 mb-3 popBox">
+		  <a href="<%=WEBSITE_URL%>product-details/<%= item.product_slug %>">
+            <div class="icon-box">
+              <div class="numberCircle"><%= item.product_name.charAt(0) %></div>
+              <h3><%= item.product_name %></h3>
+            </div>
+			 </a>
+          </div>
+		 
+		<%  }) %>  
+		<div class="text-center mt-4">
+		<a href="<%=WEBSITE_URL%>products" class="moreBTNInnerclas">View All Products</a>
+		</div>
+         
+        </div>
+		
+
+      </div>
+    </section><!-- End Features Section-->
+	
+      </div>
+    </section><!-- End Popular Products Section -->
+
+			
+	
+	
+	
+	<!-- ======= Popular Products by Tags Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title mb-3">
+          <h2>Popular</h2>
+          <p>Platforms</p>
+        </div>
+		
+		<section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+		<% demo_popular_platform_data.forEach(function (item, index) {    %>
+          <div class="col-lg-3 col-md-4  mb-3 popBox">
+		  <a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_PLATFORM %>/<%= item.slug %>">
+            <div class="icon-box">
+              <div class="numberCircle"><%= item.platform_name.charAt(0) %></div>
+              <h3><%= item.platform_name %></h3>
+            </div>
+			</a>
+          </div>
+		<%  }) %>  
+		<div class="text-center mt-4">
+		<a href="<%=WEBSITE_URL%>platforms" class="moreBTNInnerclas">View All Platforms</a>
+		</div>
+		
+        </div>
+
+      </div>
+    </section>
+     
+
+      </div>
+    </section><!-- End Popular Products By Features Section -->
+	
+	<!-- ======= Popular Products by Categories Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title mb-3">
+          <h2>Popular</h2>
+          <p>Categories</p>
+        </div>
+		
+		<section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+		<% demo_popular_category_data.forEach(function (item, index) {    %>
+          <div class="col-lg-3 col-md-4  mb-3 popBox">
+		   <a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_CATEGORY %>/<%= item.slug %>">
+            <div class="icon-box">
+              <div class="numberCircle"><%= item.category_name.charAt(0) %></div>
+              <h3><%= item.category_name %></h3>
+            </div>
+			</a>
+          </div>
+		<%  }) %>  
+		<div class="text-center mt-4">
+		<a href="<%=WEBSITE_URL%>categories" class="moreBTNInnerclas">View All Categories</a>
+		</div>
+		
+        </div>
+
+      </div>
+    </section>
+     
+
+      </div>
+    </section><!-- End Popular Products By Features Section -->
+	
+	
+	<!-- =======  Popular Products by features Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title mb-3">
+          <h2>Popular</h2>
+          <p>Features</p>
+        </div>
+
+        <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+
+         <div class="row" data-aos="zoom-in" data-aos-delay="100">
+		<% demo_popular_features_data.forEach(function (item, index) {    %>
+          <div class="col-lg-3 col-md-4  mb-3 popBox">
+		   <a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_FEATURES %>/<%= item.feature_slug %>">
+            <div class="icon-box">
+              <div class="numberCircle"><%= item.feature_name.charAt(0) %></div>
+              <h3><%= item.feature_name %></h3>
+            </div>
+			</a>
+          </div>
+		<%  }) %>  
+		<div class="text-center mt-4">
+		<a href="<%=WEBSITE_URL%>features" class="moreBTNInnerclas">View All Features</a>
+		</div>
+		
+        </div>
+
+      </div>
+    </section><!-- End Features Section-->
+
+      </div>
+    </section><!-- End Popular Products By Features Section -->
+	
+	
+	<!-- ======= Popular Products by Tags Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title mb-3">
+          <h2>Popular</h2>
+          <p>Tags</p>
+        </div>
+
+        <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+		
+		 <div class="row" data-aos="zoom-in" data-aos-delay="100">
+		<% demo_popular_tags_data.forEach(function (item, index) {    %>
+          <div class="col-lg-3 col-md-4  mb-3 popBox">
+		     <a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_TAGS %>/<%= item.tag_slug %>">
+				<div class="icon-box">
+				  <div class="numberCircle"><%= item.tag_name.charAt(0) %></div>
+				  <h3><%= item.tag_name %></h3>
+				</div>
+			</a>
+          </div>
+		<%  }) %>  
+		<div class="text-center mt-4">
+		<a href="<%=WEBSITE_URL%>tags" class="moreBTNInnerclas">View All Tags</a>
+		</div>
+		
+        </div>
+
+      </div>
+    </section><!-- End Features Section-->
+
+      </div>
+    </section><!-- End Popular Products By Features Section -->
+
+   
+
+  </main><!-- End #main -->

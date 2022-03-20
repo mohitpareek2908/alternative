@@ -1,0 +1,191 @@
+
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.splashscreens.edit_Slider'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="edit-screen" data-submit-btn-id="screen-edit-btn-id" method="post" class="on_click_submit" role="form" enctype="mutlipart/form-data">			
+						<div class="tab-content mt-20">			
+							<div class="row clearfix">
+								<div class="col-sm-12 align-center">
+									<div class="form-group add-image">
+										<% 
+											var oldImage	= 	(result.image)		? result.image		:''; 
+											var image 	  	=	(result[IMAGE_FIELD_NAME])	? result[IMAGE_FIELD_NAME]	:ADD_PROFILE_IMAGE_ICON; 
+										%>	
+										<input name="old_image" id="old_image" type="hidden" class="form-control"  value="<%=oldImage %>"/>
+										<input name="image" id="splash_image" class="form-control image-input-file" type="file"/>
+										<span class="help-inline required image" id="ContentTypeNameSpan">
+											<div id="pImage">
+												<img src="<%=image%>?dim=120x120&type=resize" alt="Splash screen image" class="profileImage" />
+											</div>
+										</span>
+										<br/>
+										<div>
+											<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="<%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>" class="btn bg-teal btn-block btn-sm waves-effect changePhoto">
+												<%= __("admin.banner.upload_image"); %>
+											</a>
+										</div>
+										<span id="image_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+						
+						<!-- Start Multilingual Information Box -->
+						
+								<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+								<div class="row clearfix seperator-line field-seperator">
+									<hr/>
+								</div>
+							<% } %>
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ %>
+								<% language_list.forEach(function(languages){ %>
+									<% 
+										languageId 		= (languages._id) ?  languages._id : '';
+										languageCode 	= (languages.lang_code) ?  languages.lang_code : '';
+										
+										title 			= 	(result.pages_descriptions && result.pages_descriptions[languageId] && result.pages_descriptions[languageId]['title']) 		?	result.pages_descriptions[languageId]['title'] 		:"";
+										description 		= 	(result.pages_descriptions && result.pages_descriptions[languageId] && result.pages_descriptions[languageId]['description']) 	? 	result.pages_descriptions[languageId]['description'] 	:"";
+										
+										
+									%>
+									<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="block_name_<%= languageCode; %>" class="control-label">
+															<%= __("admin.splash.splash_title"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> *</span>
+															<% } %> 
+														</label> 
+														<input type="hidden" name="page_descriptions[<%= languageId %>][language_id]" value="<%= languageId; %>"/>
+														<input type="text" id="title_<%= languageCode; %>" class="form-control" name="page_descriptions[<%= (languages._id) ? languages._id : "" %>][title]" value="<%= title; %>"/>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="page_descriptions_<%=languageId %>_title_error" class="error"></span>
+														<% } %>
+													
+												</div>
+											</div>
+										</div>
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="description_<%= languageCode; %>" class="control-label">
+															<%= __("admin.splash.description"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> </span>
+															<% } %> 
+														</label> 
+														<textarea rows="4"  id="description_<%= languageCode; %>" class="form-control no-resize ckeditor"  name="page_descriptions[<%= (languages._id) ? languages._id : "" %>][description]" ><%= description; %></textarea>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="page_descriptions_<%=languageId %>_description_error" class="error"></span>
+														<% } %>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								<% }); %>
+							<% } %>
+						</div>
+									
+									
+							
+
+						<input name="default_value" id="default_value" class="form-control image-input-file" value="default_value" type="hidden"/>
+						
+						<button type="button"  id="banner-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("script") %>
+
+	<script type="text/javascript">
+		/**Hide common error message*/
+			$("div.alert-danger").hide();
+		/** Function to submit form
+		 */
+		 $(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			submit_multipart_form("edit-screen",function(status,response){					
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+					$("div.alert-danger").show();
+					$("#both_language_error").html('<%= BOTH_LANGUAGE_REQUIRED %>');
+					$('html, body').animate({
+						 scrollTop: ($('.error').offset().top)
+					}, 10);
+				}
+			});
+		});
+		
+		/** 
+		 * User image Upload 
+		 */
+		$(document).on("click", ".changePhoto", function(){
+			if(!$(".add-image #splash_image").hasClass("added")){
+				$(".add-image #splash_image").trigger("click");
+				$(".add-image #splash_image").addClass("added");
+				window.setTimeout(function(){
+					$(".add-image #splash_image").removeClass("added");
+				},500);
+			}
+		});
+		
+		/** 
+		 *Show user image after select 
+		 */
+		$("#splash_image").on("change", function(){
+			var UPLOAD_FILE_SIZE = '2';
+			var size 			= parseFloat($("#splash_image")[0].files[0].size).toFixed(2);
+			var allowed_size 	= UPLOAD_FILE_SIZE * 1024 * 1024; 
+			if(size > UPLOAD_FILE_SIZE * 1024 * 1024){					
+					$("#splash_image_error").html("Please upload valid size image. Maximum uploaded file size 2 MB.");
+					$('#splash_image').val('');
+			}else{
+			var files = !!this.files ? this.files : [];
+			if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+			
+				if (/^image/.test( files[0].type)){ 
+					// only image file
+					var reader = new FileReader(); // instance of the FileReader
+					reader.readAsDataURL(files[0]); // read the local file
+					reader.onloadend = function(){ 
+						
+						$("#pImage").html("<img src='"+this.result+"' class='profileImage' >");
+					}
+					$("span#splash_image_error").text("");
+				}
+			}				
+		});
+	</script>

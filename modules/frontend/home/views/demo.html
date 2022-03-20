@@ -1,0 +1,623 @@
+
+	
+  <section id="heroProduct" class="d-flex justify-content-center align-items-center">
+  
+        <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+			<div class="row" data-aos="zoom-in" data-aos-delay="100">
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Created By</h5> 
+						<p class="card-text"><%= demo_data.product_creator %></p>
+					  </div>
+					</div>
+				</div>
+				
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Liscence Model</h5>
+						<p class="card-text"><%= demo_data.product_liscence_cost %></p>
+					  </div>
+					</div>
+				</div>
+			</div>	
+			<div class="row" data-aos="zoom-in" data-aos-delay="100">
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Product Type</h5>
+						<p class="card-text"><%= demo_data.product_type %></p>
+					  </div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-4 text-center">
+					<div class="card border-success mb-3" style="width: 17rem;">
+					  <div class="card-body">
+						<h5 class="card-title">Alternatives </h5>
+						<p class="card-text"><%= demo_data.product_alternative_count %></p>
+					  </div>
+					</div>
+				</div>
+			</div>	
+				
+				
+          </div>
+		 
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+		  <div class="col-lg-12 col-md-4 ">
+				 <h1><span class="numberSquare"><%= demo_data.product_name.charAt(0) %></span><%= demo_data.product_name %></h1>
+				<h2><%= demo_data.product_tag_line %></h2>
+			</div>	
+	
+          </div>
+        </div>
+
+      </div>
+	  
+	  
+	  
+
+	
+  </section><!-- End Hero -->
+  
+    <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about bg-custom-grey">
+      <div class="container" data-aos="fade-up">
+	  <div class="section-title mb-3">
+          <h2>About </h2>
+          <p><%= demo_data.product_name %></p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+			<div class="row" data-aos="zoom-in" data-aos-delay="100">
+				<div class="col-lg-12 col-md-4 text-center">
+					<div class="card border-success mb-3 w-100" >
+					<a href="<%=WEBSITE_URL%>product-alternative/<%= demo_data.product_slug %>">
+					  <div class="card-body">
+						<h5 class="card-title">View <%= demo_data.product_alternative_count %> Alternatives</h5> 
+						<p class="card-text"> Of <%= demo_data.product_name %></p>
+					  </div>
+					</a>  
+					</div>
+				</div>
+				
+			</div>	
+          </div>
+          <div class="col-lg-8 pt-4 pt-lg-0 order-2 order-lg-1 content">
+           <p><%= demo_data.product_description %></p>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+  
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+      <div class="container" data-aos="fade-up">
+			<div class="section-title mb-3">
+          <h2>More About </h2>
+          <p><%= demo_data.product_name %></p>
+        </div>
+        <div class="row">
+		 <%  if(demo_data.product_features && Object.keys(demo_data.product_features).length > 0){ %>
+          <div class="col-lg-4 mb-3 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Features</h3>
+              <p>
+               <% demo_data.product_features.forEach(function (item, index) {    %>
+					<a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_FEATURES %>/<%= item.feature_slug %>">
+						<span class="badge badge-secondary"><%=	item.feature_name+" " %></span> </a>
+			  <%  }) %>
+              </p>
+              <div class="text-center">
+                <a href="<%=WEBSITE_URL%>features" class="more-btn"> More Features</a>
+              </div>
+            </div>
+          </div>
+		   <%  } %>
+		   <%  if(demo_data.product_tags && Object.keys(demo_data.product_tags).length > 0){ %>
+		  <div class="col-lg-4 mb-3  d-flex align-items-stretch">
+            <div class="content">
+              <h3>Tags</h3>
+              <p>
+                 <% 
+					demo_data.product_tags.forEach(function (item, index) {    %>
+						<a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_TAGS %>/<%= item.tag_slug %>">
+						<span class="badge badge-secondary"><%=	item.tag_name+" " %></span> </a>
+			  <%  }) %>
+              </p>
+              <div class="text-center">
+                <a href="<%=WEBSITE_URL%>tags" class="more-btn">More Tags</a>
+              </div>
+            </div>
+          </div>
+		   <%  } %>
+		   
+		  <%  if(demo_data.product_category && Object.keys(demo_data.product_category).length > 0){ %>
+          <div class="col-lg-4 mb-3 col-md-4 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Category</h3>
+              <p>
+               <% 
+					demo_data.product_category.forEach(function (item, index) {    %>
+						<a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_CATEGORY %>/<%= item.slug %>">
+							<span class="badge badge-secondary"><%=	item.category_name+" " %></span> 
+						</a>	
+			  <%  }) %>
+              </p>
+			  <div class="text-center">
+                <a href="<%=WEBSITE_URL%>categories" class="more-btn">More Categories </a>
+              </div>
+
+            </div>
+          </div>
+		  <% } %>
+		  
+		  
+		   
+		   <%  if(demo_data.product_platforms && Object.keys(demo_data.product_platforms).length > 0){ %>
+          <div class="col-lg-4 mb-3 col-md-4 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Platform</h3>
+              <p>
+               <% 
+					demo_data.product_platforms.forEach(function (item, index) {    %>
+						<a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_PLATFORM %>/<%= item.slug %>">
+							<span class="badge badge-secondary"><%=	item.platform_name+" " %></span> 
+						</a>	
+			  <%  }) %>
+              </p>
+			  <div class="text-center">
+                <a href="<%=WEBSITE_URL%>platforms" class="more-btn">More Platforms </a>
+              </div>
+
+            </div>
+          </div>
+		  <% } %>
+		   
+		  <div class="col-lg-4 mb-3 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Top 10 Alternatives</h3>
+			  
+       <ol>
+        <%  if(demo_data.product_alternative && Object.keys(demo_data.product_alternative).length > 0){ 
+          demo_data.product_alternative.forEach(function (item, index) {   %>
+				<li><a class="anchorGreen" href="<%=WEBSITE_URL%>product-details/<%= item.product_slug %>"><span class="badge badge-secondary"><%=	item.product_name %></span></a></li>
+        <% })  }else{ %>
+          
+              <p>No Alternatives Found</p>
+          
+      <%  } %>
+				
+			</ol>
+
+            </div>
+          </div>
+		  
+        
+       
+		 <%  if(demo_data.product_external_links && Object.keys(demo_data.product_external_links).length > 0){ %>
+          <div class="col-lg-4 mb-3 col-md-4 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Official Links</h3>
+              <p>
+               <% 
+					demo_data.product_external_links.forEach(function (item, index) {    %>
+						<a href="<%=item.url%>">
+							<span class="badge badge-secondary"><%=	item.name+" " %></span> 
+						</a>	
+			  <%  }) %>
+              </p>
+
+            </div>
+          </div>
+		  <% } %>
+		  
+        
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+	
+	
+	
+	    <!-- ======= Why Us Section ======= -->
+      <section id="why-us" class="why-us bg-custom-grey">
+        <div class="container" data-aos="fade-up">
+      <div class="section-title mb-3">
+            <h2>Reviews For </h2>
+            <p><%= demo_data.product_name %></p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Add Review
+            </button>
+  
+      </div>
+  
+          <div class="row">
+  
+  <div class="container mt-5 mb-5">
+      <div class="row">
+          <div class="col-md-9" id="faq_loadMore"  >
+            <%  if(demo_data.product_review_details && Object.keys(demo_data.product_review_details).length > 0){ %>
+              <% 
+              demo_data.product_review_details.forEach(function (item, index) {    %>
+              <div class="bg-white p-3 rounded mt-2">
+               
+                  <div class="row">
+                  
+                      <div class="col-md-9 border-right">
+                          <div class="lisproduct_external_linksting-title">
+                              <h2><%=	toTitleCase(item.name) %></h2>
+                          </div>
+                         
+                          <div class="description">
+                              <p><%=	(item.message) %></p>
+                          </div>
+              
+                 
+                       </div>
+                      <div class="d-flex col-md-3">
+                        
+                          <div class="d-flex flex-column justify-content-start user-profile w-100">
+                             
+                              <div class="progresses" ><span><i class="bi bi-star-fill text-success"></i> 5.5</span>
+                                  <div class="progress mt-1" style="height: 5px;">
+                                      <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                  </div>
+                              </div>
+                              <div class="progresses"><span><i class="bi bi-calendar3 text-success"></i> 27 Aug 2022 </span>
+                                  <div class="progress mt-1" style="height: 5px;">
+                                      <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                  </div>
+                              </div>
+                              <div class="progresses"><span><i class="bi bi-hand-thumbs-up-fill text-success"></i> 24</span>
+                                  <div class="progress mt-1" style="height: 5px;">
+                                      <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                  </div>
+                  
+              </div>
+              <% })  }else{ %>
+                <div class="bg-white p-3 rounded mt-2">
+                  <div class="row">
+                    <p>No Reviews Found</p>
+                   </div>
+                </div>    
+  
+  
+            <%  } %>
+        
+        
+          </div>
+      </div>
+  </div>
+  
+  <div class="text-center">
+    <input type="hidden" id="total_records_shown" name="total_records_shown" value="<%= total_reviews_on_products_shown  %>">
+    <input type="hidden" id="total_records_exits" name="total_records_exits" value="<%= total_reviews_on_products %>">
+   
+  <a href="javascript:void(0);" id="load_more" data-limit="5"  data-skip="5" class="moreBTNInnerclas">Load More Reviews</a>
+  </div>
+          
+          </div>
+  
+        </div>
+      </section><!-- End Why Us Section -->
+
+      
+
+
+	<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <form id="add-review" action="<%= WEBSITE_URL %>add-review/<%= demo_data._id %>" method="post" role="form" >
+              <p class="h4 fw-bold text-center pt-4 mb-5">Write A Review For  <%= demo_data.product_name %></p>
+              <div class="row">
+                  <div class="col-md-12 mb-4"> 
+                    <input class="form-control" id="full_name" name="full_name" type="text" placeholder="First Name"> 
+                    <span id="full_name_error" class="error"></span>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 mb-4"> 
+                    <input type="email" id="email" name="email" placeholder="Email address" class="form-control"> 
+                    <span id="email_error" class="error"></span>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 mb-4"> 
+                    <textarea class="form-control" id="message" name="message" placeholder="Please enter your feedback here..." rows="5"></textarea>
+                    <span id="message_error" class="error"></span>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-12 mb-4"> 
+                  <div class="rating" id="ratingDiv"> 
+                    <input type="radio" name="rating"  value="5" id="5"><label for="5">☆</label> 
+                    <input type="radio" name="rating"   value="4" id="4"><label for="4">☆</label> 
+                    <input type="radio" name="rating"   value="3" id="3"><label for="3">☆</label> 
+                    <input type="radio" name="rating"  value="2" id="2"><label for="2">☆</label> 
+                    <input type="radio" name="rating"  value="1" id="1"><label for="1">☆</label>
+                </div>
+                <span id="rating_error" class="error"></span>
+             </div> 
+            </div>
+              <div class="row">
+                  <div class="col-12 mb-4">
+                    <button type="submit" class="btn btn-primary"><%= __("front.contact.submit");%></button>
+                  </div>
+              </div>
+              <div id="contact_message" class="alert alert-dismissible d-none mt-3" role="alert">
+                <span id="contact_form_message"></span>.
+                
+              </div>
+        
+              
+              <!-- <p class="text-center textmuted"> or sign up with:</p>
+              <div class="pb-4">
+                  <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                      <li class="icon me-3"><span class="fab fa-facebook"></span></li>
+                      <li class="icon me-3"><span class="fab fa-google-plus"></span></li>
+                      <li class="icon me-3"><span class="fab fa-twitter"></span></li>
+                      <li class="icon "><span class="fab fa-github"></span></li>
+                  </ul>
+              </div> -->
+          </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+	
+
+
+<%- contentFor("script") %>	
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  
+  var total_records_exits = $("#total_records_exits").val();
+  var total_records_shown = $("#total_records_shown").val();
+  $(document).keypress(
+      function(event){
+      if (event.which == '13') {
+        event.preventDefault();
+      }
+    });
+  
+  if(parseInt(total_records_shown) >= parseInt(total_records_exits) || parseInt(total_records_exits)==0 )
+  {
+    
+    $("#load_more").hide();
+  }
+
+  
+    /** Function for get news result **/
+    var getFaqs = function(e){
+
+    //	show_loader();
+      if( typeof e !== typeof undefined ){
+        e.stopImmediatePropagation();
+      }
+      var totalRecordsExist =0;
+      var totalRecordsShown =0;
+      var defaultLimit=0;
+      var limit =0;
+      var skip =0;
+       limit	 = $("#load_more").attr("data-limit");
+       skip	 = $("#load_more").attr("data-skip");
+       var productSlug = "<%= demo_data.product_slug %>";
+
+      $.ajax({
+        type		: "POST",
+        url     : WEBSITE_URL+"product-details/"+productSlug,
+        data		: {
+          length 	: limit, 
+          start 	: skip
+        },success	: function(result){
+        console.log(result);
+
+          if( result.status == "success" ){
+            if( result.demo_reviews_data.length > 0 ){
+              $("#faq_loadMore").append(result.demo_reviews_data);
+                /** re intialize accordin again */
+                    if ($('.accrodion-grp').length) {
+                    var accrodionGrp = $('.accrodion-grp');
+                    accrodionGrp.each(function () {
+                      var accrodionName = $(this).data('grp-name');
+                      var Self = $(this);
+                      var accordion = Self.find('.accrodion');
+                      Self.addClass(accrodionName);
+                      Self.find('.accrodion .accrodion-content').hide();
+                      Self.find('.accrodion.active').find('.accrodion-content').show();
+                      accordion.each(function () {
+                        $(this).find('.accrodion-title').on('click', function () {
+                          if ($(this).parent().parent().hasClass('active') === false) {
+                            $('.accrodion-grp.' + accrodionName).find('.accrodion').removeClass('active');
+                            $('.accrodion-grp.' + accrodionName).find('.accrodion').find('.accrodion-content').slideUp();
+                            $(this).parent().parent().addClass('active');
+                            $(this).parent().parent().find('.accrodion-content').slideDown();
+                          };
+
+
+                        });
+                      });
+                    });
+
+                  };
+                
+                
+               totalRecordsExist	= result.total_reviews_on_products;		
+               totalRecordsShown	= result.total_reviews_on_products_shown;		
+              
+               defaultLimit		= $("#faq_loadMore").data("limit");
+               
+              
+              if(totalRecordsShown >= totalRecordsExist)
+              {
+                $("#load_more").hide();
+              }
+              
+              else{
+                $("#load_more").attr("data-skip",(totalRecordsShown));
+                $("#faq_loadMore").data("total",(totalRecordsShown+defaultLimit));
+                $("#load_more").show();
+              }
+            }
+            else{
+              $("#faq_loadMore").html('<p><%= __("front.global.no_record_found");%></p>');
+              $("#load_more").hide();
+            }
+          }else{
+            console.log(result);
+          }
+        //	hide_loader();
+        }
+      });
+    }
+
+    /** Getting result on load **/
+  //	window.addEventListener("load", getFaqs);
+
+    $("#load_more").click(getFaqs);
+  });
+
+
+
+
+
+		/**
+		 * Function to submit form
+		 */
+$(document).ready(function(){
+		
+	$("#add-review").formValidation({
+		message: "This value is not valid",
+		trigger: "blur",
+		fields: {
+			"full_name": {
+					row: ".form-row",
+					err :"#full_name_error",
+					validators: {
+						notEmpty: {
+							message: "<%= __("front.contactus.please_enter_name");%>"
+						},
+					}
+				},
+				"email": {
+					row: ".form-row",
+					err :"#email_error",
+					validators: {
+						notEmpty: {
+							message: "<%= __("front.contactus.please_enter_email");%>"
+						},
+						emailAddress: {
+							message: "<%= __("front.contactus.please_enter_valid_email_address");%>" 
+						},
+					}
+				},
+				"message": {
+          row: ".form-row",
+					err :"#message_error",
+                    validators: {
+                        notEmpty: {
+                            message: "<%= __("front.contactus.please_enter_message");%>" 
+                        },
+                    }
+        },	
+        "rating": {
+          row: ".form-row",
+					err :"#rating_error",
+                    validators: {
+                        notEmpty: {
+                            message: "<%= __("front.contactus.please_enter_message");%>" 
+                        },
+                    }
+        }	
+       
+		},
+    
+	}).on("err.validator.fv", function(e, data) {
+		
+		 data.element
+                .data('fv.messages')
+                // Hide all the messages
+                .find('.help-block[data-fv-for="' + data.field + '"]').hide()
+                // Show only message associated with current validator
+                .filter('[data-fv-validator="' + data.validator + '"]').show();
+	}).on("success.form.fv", function(e) { 
+  
+    e.preventDefault(); 
+		
+    var form_data = $("#add-review").serialize();
+    var productId = "<%= demo_data._id %>";
+			$.ajax({
+						type: "POST",             
+						data: form_data,  
+            url:  WEBSITE_URL+"add-review/"+productId,
+						success: function(result) {
+
+            
+              $('#add-review').trigger("reset");
+
+							$("span.error").html("");
+							if( result.status == "success" ){
+								$("#contact_message").html(result.message);
+								$("#contact_form_message").addClass("alert-success");
+								$("#contact_form_message").removeClass("d-none");
+								setTimeout(function(){
+									window.location.reload();
+								},5000);
+							}
+							else{
+								if ( result.message.length === 'undefined' ) {
+									$("#contact_message").html(result.message);
+									$("#contact_form_message").addClass("alert-danger");
+									$("#contact_form_message").removeClass("d-none");
+									setTimeout(function(){
+										$("#contact_form_message").addClass("d-none");
+									},5000);
+								}
+								else{
+									result.message.forEach(function(item) {
+										console.log(item);
+										$("#"+item.param+"_error").html(item.msg);
+									});
+								}
+								console.log(result);
+							}
+							hide_loader();
+							return false;
+						}
+					});
+		
+	});
+		});
+
+
+
+
+
+	</script>
+	
+	
+
+ 

@@ -1,0 +1,190 @@
+<%	
+	type		=	(typeof type !== typeof undefined)			?	type		:""; 
+	displayType	=	(typeof displayType !== typeof undefined)	?	displayType	:__('admin.master.master'); 
+	parentList	=	(typeof parent_list !== typeof undefined)	?	parent_list	:""; 
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.system.edit")+" "+displayType;%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url+"/"+type%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="edit-master" data-submit-btn-id="block-add-btn-id" method="post" class="on_click_submit" role="form">
+						<!-- Tab panes -->
+						<div class="tab-content mt-20">
+						
+							<%
+							if(type == "category"){
+								var image			=	(typeof result !== typeof undefined && result.image)				? 	result.image			:"";
+								var completeImage	=	(typeof result !== typeof undefined && result[IMAGE_FIELD_NAME])	? 	result[IMAGE_FIELD_NAME]:"";
+									
+							%>
+								<div class="row clearfix">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<div class="form-lin no-bottom-border">
+												<label for="image" class="control-label"><%= __("admin.master.image"); %><span class="required"> *</span> </label>
+												<input name="image" id="image" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+												<input name="old_image" id="old_image" type="hidden" value="<%=image%>"/>
+												<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.system.extension_and_size_suggestion_message",ALLOWED_IMAGE_EXTENSIONS.join(", "),MASTER_IMAGE_RESOLUTION)%>">
+													<i class="material-icons">info</i>
+												</span>
+											</div>
+											<span id="image_error" class="error"></span> 
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<a href='<%=completeImage%>'  class='items-image' data-lightbox='roadtrip'>
+											<img src="<%=completeImage%>?dim=70x50&type=resize" alt="Master image" class=" img-thumbnail" />
+										</a>	
+									</div>	
+								</div> 
+							<% 
+							}
+							if(type == "car"){ %>
+								<div class="row clearfix">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="parent_id" class="control-label"><%= __("admin.master.brand"); %><span class="required"> *</span> </label>
+												<select name="parent_id" class="form-control">
+													<option value=""><%= __("admin.master.select_brand")%></option>
+													<%-parentList%>
+												</select>
+											</div>
+											<span id="parent_id_error" class="error"></span> 
+										</div>
+									</div>
+								</div> <% 
+							}
+							%>
+							
+							
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+								<div class="row clearfix seperator-line field-seperator">
+									<hr/>
+								</div>
+							<% } %>
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ %>
+								<% language_list.forEach(function(languages){ %>
+									<% 
+									
+									languageId 		= 	(languages._id) 		?  	languages._id 		:"";
+									languageCode 	= 	(languages.lang_code)	?	languages.lang_code :"";
+									name 			=	(result.master_descriptions && result.master_descriptions[languageId] && result.master_descriptions[languageId]['name']) ? result.master_descriptions[languageId]['name'] 	:"";
+									help_text 		=	(result.master_descriptions && result.master_descriptions[languageId] && result.master_descriptions[languageId]['help_text']) ? result.master_descriptions[languageId]['help_text'] 	:"";
+							
+										
+									%>
+									<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="name_<%= languageCode; %>" class="control-label">
+															<%= __("admin.master.name"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> *</span>
+															<% } %> 
+														</label>
+
+														<input type="hidden" name="master_descriptions[<%= languageId %>][language_id]" value="<%= languageId; %>"/>
+														<input type="text" id="name_<%= languageCode; %>" class="form-control" name="master_descriptions[<%=languageId%>][name]" value="<%=name%>"/>
+													
+														
+													</div>
+														<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="master_descriptions_<%=languageId %>_name_error" class="error"></span>
+														<% } %>
+														
+													
+												</div>
+											</div>
+										</div>
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="help_text_<%= languageCode; %>" class="control-label">
+															<%= __("admin.master.help_text"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> </span>
+															<% } %> 
+														</label>
+														<input type="text" id="help_text_<%= languageCode; %>" class="form-control" name="master_descriptions[<%=languageId%>][help_text]" value="<%=help_text%>"/>
+													
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="master_descriptions_<%=languageId %>_help_text_error" class="error"></span>
+														<% } %>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								<% }); %>
+							<% } %>
+						</div>
+						<button type="button" id="block-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+			updateCkeditorValue();
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('edit-master',function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,249 @@
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<div class="col-md-6">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_2"  onkeyup="searchDatatable(2)" placeholder="<%= __("admin.block.search_by_title"); %>">
+
+										</div>
+									</div>
+								</div>
+								<!-- Search by blog status -->
+								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick search_by_status" id="column_filter_blog_status" name="blog_status" >
+												<option value=""><%=__("admin.blogs.search_by_blog_status");%></option>
+												<%
+													if(typeof BLOG_STATUS_SEARCH_DROPDOWN!== typeof undefined && BLOG_STATUS_SEARCH_DROPDOWN.length > 0){
+														BLOG_STATUS_SEARCH_DROPDOWN.map(searchStatus=>{
+															%>
+															<option value="<%=searchStatus.status_id%>"><%=searchStatus.status_name%></option>
+													<% 	});
+												} %>
+											</select>
+											<input class="form-control hide" value="" id="blog_status" type="text">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.blog.blog_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">						
+						<li>
+							<a href="<%=admin_list_url%>/add" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.blog.add"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="5%"><%= __("admin.system.sno"); %></th>
+								<th width="10%"><%= __("admin.system.image"); %></th>
+								<th width="20%"><%= __("admin.blog.blog_title"); %></th>
+								<th width="10%"><%= __("admin.blog.author"); %></th>
+								<th width="10%"><%= __("admin.blog.category"); %></th>
+								<th width="10%"><%= __("admin.system.status"); %></th>
+								<th width="10%"><%= __("admin.system.modified"); %></th>
+								<th width="15%"><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"order"		: 	[[ 6, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"orderable"		:   false,
+						//"searchable"	: 	false,	
+						"data": "id",
+						render: function (data, type, row, meta) {
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imagePath	=	(result['<%=IMAGE_FIELD_NAME%>']) 	? 	result['<%=IMAGE_FIELD_NAME%>'] :'';
+							var id 			=	(result._id) 						? 	result._id 						:'';
+							var imgHtml		=	'';
+							if(imagePath && imagePath !=""){
+								imgHtml = "<a href='"+imagePath+"'  class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=70x70&type=resize' class='img-thumbnail'  alt='Blog Image'/></a>"
+							}
+							
+							return imgHtml;
+						}
+					},
+					{
+						"data"			: 	'blog_title',
+						"searchable"	: 	false,
+						"render" 		: 	function(blog_title){
+							return (blog_title) ? blog_title : "N/A" ;
+						}
+					},
+					
+					{ 
+						"data"		: 'userdetails',
+						"render" 	: 	function(userdetails){
+							return (userdetails)	?	userdetails	:	'N/A' ;
+						}
+					},
+					{ "data": 'categorydetails' },
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						//"searchable"	: 	false,	
+						"field_type"	:	"<%= EXACT_FIELD %>",					
+						"render": function(result){
+							var trending 	= 	(result && result.trending)	?	result.trending	:"";
+							var featured 	=	(result && result.featured)	?	result.featured	:"";
+							var status		=	(result && result.status)	?	result.status	:"";
+							
+							/** Publish Status **/
+							var statusTab	 = 	(status == <%=ACTIVE%>)  		? 	'<span class="label label-primary m-l-5 m-t-5"><%=__("admin.system.published")%></span>': '<span class="label label-warning m-l-5 m-t-5"><%=__("admin.system.unpublished")%></span>';
+							statusTab		+=	'<br/>';
+							
+							/** Featured Status **/
+							statusTab		+=	(featured == <%=ACTIVE%>)  		?	'<span class="label label-default m-l-5 m-t-5"><%=__("admin.system.featured")%></span>': '<span class="label label-info m-l-5 m-t-5"><%=__("admin.system.not_featured")%></span>';
+							statusTab		+=	'<br/>';
+							
+							/** Trending Status **/
+							statusTab		+=	(trending == <%=ACTIVE%>)  		?	'<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.trending")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.not_trending")%></span>';
+							return statusTab;
+						}
+					},
+					{
+						"data"			: 	'modified',
+						"searchable"	: 	false,
+						"render" 		: 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id			=	(result._id)			?	result._id			:"";
+
+							var trending			=	(result.trending == <%= ACTIVE %>)			?	result.trending			:"<%=DEACTIVE%>";
+							var trendingTitle =	(trending == <%= DEACTIVE %>) ?  	"<%= __('admin.system.click_to_trending'); %>"  : "<%= __('admin.system.click_to_untrending'); %>" ;
+							var trendingIcon  =	(trending == <%= DEACTIVE %>) ?	"done"	: "block";
+							var trendingClass  =	(trending == <%= DEACTIVE %>) ?	"green"	: "orange";
+
+							var featured			=	(result.featured == <%= ACTIVE %>)			?	result.featured			:"<%=DEACTIVE%>";
+							var featuredTitle =	(featured == <%= DEACTIVE %>) ?  	"<%= __('admin.system.click_to_featured'); %>"  : "<%= __('admin.system.click_to_unfeatured'); %>" ;
+							var featuredIcon  =	(featured == <%= DEACTIVE %>) ?	"invert_colors"	: "invert_colors_off";
+							var featuredClass  =	(featured == <%= DEACTIVE %>) ?	"blue"	: "grey";
+
+							var status			=	(result.status == <%= ACTIVE %>)			?	result.status			:"<%=DEACTIVE%>";
+							var statusTitle =	(status == <%= DEACTIVE %>) ?  	"<%= __('admin.blog.click_to_publish_blog'); %>"  : "<%= __('admin.blog.click_to_unpublish_blog'); %>" ;
+							var statusIcon  =	(status == <%= DEACTIVE %>) ?	"subdirectory_arrow_right"	: "subdirectory_arrow_left";
+							var statusClass  =	(status == <%= DEACTIVE %>) ?	"blue"	: "red";
+
+							return '<a href="<%=admin_list_url%>/edit/'+result._id+'" class="btn bg-teal btn-sm waves-effect" title="<%= __('admin.system.edit'); %>" data-toggle="tooltip"><i class="material-icons font-14">mode_edit</i></a> '+
+
+							'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_publish_status/'+id+'/'+status+'/<%=ACTIVE_INACTIVE_STATUS%>" class="btn bg-'+statusClass+' btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.blog.you_want_to_change_blog_publish_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusTitle+'" data-toggle="tooltip">'+
+								'<i class="material-icons font-14">'+statusIcon+'</i>'+
+							'</a> '+
+
+							'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_trending_status/'+id+'/'+trending+'/<%=ACTIVE_INACTIVE_STATUS%>" class="btn bg-'+trendingClass+' btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.blog.you_want_to_change_blog_trending_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+trendingTitle+'" data-toggle="tooltip">'+
+								'<i class="material-icons font-14">'+trendingIcon+'</i>'+
+							'</a> '+
+
+							'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_featured_status/'+id+'/'+featured+'/<%=ACTIVE_INACTIVE_STATUS%>" class="btn bg-'+featuredClass+' btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.blog.you_want_to_change_blog_featured_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+featuredTitle+'" data-toggle="tooltip">'+
+								'<i class="material-icons font-14">'+featuredIcon+'</i>'+
+							'</a> '+
+							'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/delete/'+id+'" class="btn bg-red btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.blog.you_want_to_delete_this_blog"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="<%= __('admin.system.delete'); %>" data-toggle="tooltip"><i class="material-icons font-14">delete</i></a> '
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>/list",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.blog_status	= 	$('#blog_status').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*/
+		function searchDatatable(columnNumber){
+			
+			var query= $('#column_filter_'+columnNumber).val();
+		
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		/** Search by blog status*/
+		$("#column_filter_blog_status").change(function(){
+			var selectBoxValue = $(this).val();
+			$("#blog_status").val(selectBoxValue);
+			dataTable.draw();
+		});
+	</script>

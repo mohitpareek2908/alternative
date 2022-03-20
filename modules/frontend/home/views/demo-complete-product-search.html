@@ -1,0 +1,262 @@
+
+  
+    <main id="main">
+	    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs" data-aos="fade-in">
+      <div class="container">
+        <h1>Categories</h1>
+		<div class="active-cyan-3 active-cyan-4 mb-4">
+			<form name="productCategorySearch" id="productCategorySearch" method="post" autocomplete="off">
+				<div class="input-group mb-3">
+				  <input type="text" name="product_category" id="product_category" class="form-control" placeholder="Search Category" aria-label="Recipient's username" aria-describedby="basic-addon2">
+				  <div class="input-group-append">
+					<button class="input-group-text btn btn-success" id="productSearchBtn" name="productSearchBtn" type="button">Go!</button>
+				  </div>
+				</div>
+
+			</form>  
+		</div>
+      </div>
+    </div><!-- End Breadcrumbs -->
+	
+
+    <!-- ======= Counts Section ======= --->
+    <section id="counts" class="counts section-bg">
+      <div class="container">
+
+        <div class="row counters">
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Products</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Companies</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Features</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Tags</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+	
+	<!-- ======= Popular Products Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>View</h2>
+          <p>Categories</p>
+		  
+
+
+
+        </div>
+		
+			    <!-- ======= Features Section ======= ---->
+    <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+	  
+	  
+	  <div class="container-fluid mt-5 mb-5">
+
+    <div class="row mt-2 g-2" id="faq_loadMore" >
+
+	<% demo_category_data.forEach(function (item, index) {    %>
+        <div class="col-md-4">
+		<a href="<%=WEBSITE_URL%>product-list/<%= TAXONOMY_TYPE_CATEGORY %>/<%= item.slug %>">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center"> 
+				<div class="numberCircle"><%= item.category_name.charAt(0) %></div>
+				<button class="btn-alternate-count btn-sm ">
+				Products Count: <%= item.product_count %></button> 
+				
+				 </div> 
+				<span class="google mt-2"><h2 class="text-dark"><%= item.category_name %></h2></span> 
+				
+            </div>
+		</a>
+        </div>
+	<%  }) %>  
+	   </div>
+</div>
+<div class="text-center">
+	<input type="hidden" id="total_records_shown" name="total_records_shown" value="<%= total_recods_shown %>">
+	<input type="hidden" id="total_records_exits" name="total_records_exits" value="<%=total_categories %>">
+ 
+<a href="javascript:void(0);" id="load_more" data-limit="<%=DEFAULT_LIMIT_FRONT%>"  data-skip="<%=DEFAULT_LIMIT_FRONT%>" class="moreBTNInnerclas">Load More Categories</a>
+</div>
+      </div>
+    </section><!-- End Features Section-->
+      </div>
+    </section><!-- End Popular Products Section -->
+  </main><!-- End #main -->
+  <%- contentFor("script") %>		
+<script type="text/javascript">
+	$(document).ready(function() {
+	
+	var total_records_exits = $("#total_records_exits").val();
+	var total_records_shown = $("#total_records_shown").val();
+	$(document).keypress(
+		  function(event){
+			if (event.which == '13') {
+			  event.preventDefault();
+			}
+	});
+	
+	if(parseInt(total_records_shown) >= parseInt(total_records_exits) || parseInt(total_records_exits)==0 )
+	{
+		$("#load_more").hide();
+	}
+	
+	
+	$("#productSearchBtn").click(function(){
+
+		var productCategory = $("#product_category").val();
+			$.ajax({
+				type		: "POST",
+				data		: {
+					product_category : productCategory
+				},success	: function(result){
+				console.log(result.totalRecodsShown);
+					if( result.status == "success" ){
+						if( result.demo_category_data.length > 0 ){
+						var totalRecordsExist =0;
+						var totalRecordsShown =0;
+						 
+						$("#faq_loadMore").html(result.demo_category_data);
+						
+						$("#total_records_exits").val(result.total_categories);
+							
+							defaultLimit		= $("#faq_loadMore").data("limit");
+							 totalRecordsExist	= result.total_categories;		
+							 totalRecordsShown	= result.total_recods_shown;	
+							
+							if(totalRecordsShown >= totalRecordsExist)
+							{
+								$("#load_more").hide();
+							}
+							
+							else{
+								$("#load_more").attr("data-skip",(totalRecordsShown));
+								$("#faq_loadMore").data("total",(totalRecordsShown+defaultLimit));
+								$("#load_more").show();
+							}
+						}
+						else{
+							$("#faq_loadMore").html('<p><%= __("front.global.no_record_found");%></p>');
+							$("#load_more").hide();
+						}
+					}else{
+						console.log(result);
+					}
+				//	hide_loader();
+				}
+			});
+		
+	});
+	
+	
+	
+		/** Function for get news result **/
+		var getFaqs = function(e){
+
+		//	show_loader();
+			if( typeof e !== typeof undefined ){
+				e.stopImmediatePropagation();
+			}
+			var totalRecordsExist =0;
+			var totalRecordsShown =0;
+			var defaultLimit=0;
+			var limit =0;
+			var skip =0;
+			
+			 limit	 = $("#load_more").attr("data-limit");
+			 skip	 = $("#load_more").attr("data-skip");
+			var productCategory = $("#product_category").val();
+
+			$.ajax({
+				type		: "POST",
+				data		: {
+					length 	: limit, 
+					start 	: skip,
+					product_category : productCategory
+				},success	: function(result){
+				console.log(result.totalRecodsShown);
+					if( result.status == "success" ){
+						if( result.demo_category_data.length > 0 ){
+							$("#faq_loadMore").append(result.demo_category_data);
+								/** re intialize accordin again */
+								    if ($('.accrodion-grp').length) {
+										var accrodionGrp = $('.accrodion-grp');
+										accrodionGrp.each(function () {
+											var accrodionName = $(this).data('grp-name');
+											var Self = $(this);
+											var accordion = Self.find('.accrodion');
+											Self.addClass(accrodionName);
+											Self.find('.accrodion .accrodion-content').hide();
+											Self.find('.accrodion.active').find('.accrodion-content').show();
+											accordion.each(function () {
+												$(this).find('.accrodion-title').on('click', function () {
+													if ($(this).parent().parent().hasClass('active') === false) {
+														$('.accrodion-grp.' + accrodionName).find('.accrodion').removeClass('active');
+														$('.accrodion-grp.' + accrodionName).find('.accrodion').find('.accrodion-content').slideUp();
+														$(this).parent().parent().addClass('active');
+														$(this).parent().parent().find('.accrodion-content').slideDown();
+													};
+
+
+												});
+											});
+										});
+
+									};
+								
+								
+								
+							 totalRecordsExist	= result.total_categories;		
+							 totalRecordsShown	= result.total_recods_shown;	
+							
+							 defaultLimit		= $("#faq_loadMore").data("limit");
+							 
+							
+							if(totalRecordsShown >= totalRecordsExist)
+							{
+								$("#load_more").hide();
+							}
+							
+							else{
+								$("#load_more").attr("data-skip",(totalRecordsShown));
+								$("#faq_loadMore").data("total",(totalRecordsShown+defaultLimit));
+								$("#load_more").show();
+							}
+						}
+						else{
+							$("#faq_loadMore").html('<p><%= __("front.global.no_record_found");%></p>');
+							$("#load_more").hide();
+						}
+					}else{
+						console.log(result);
+					}
+				//	hide_loader();
+				}
+			});
+		}
+
+		/** Getting result on load **/
+	//	window.addEventListener("load", getFaqs);
+
+		$("#load_more").click(getFaqs);
+	});
+</script>

@@ -1,0 +1,154 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.contact.name'); %></th>
+							<td><%=(typeof result !== typeof undefined &&  result.full_name) ? result.full_name : 'N/A'%>
+							</td>
+						</tr>
+					
+						
+						<tr>
+							<th class="text-right"><%= __('admin.contact.phone'); %></th>
+							<td>
+								<%
+									var phoneNumber = 	(typeof result !== typeof undefined &&  result.userMobile)	?	result.userMobile	:'N/A';
+								%>
+								<%=phoneNumber%>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.contact.email'); %></th>
+							<td>
+								<%
+									var email = 	(typeof result !== typeof email &&  result.email)	?	result.email	:'N/A';
+								%>
+								<%=email%>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('User Type'); %></th>
+							<td><span><%-(typeof result !== typeof undefined &&  result.userType) ? toTitleCase(result.userType) : 'N/A'%></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('Reason'); %></th>
+							<td><span><%-(typeof result !== typeof undefined &&  result.reasonName) ? nl2br(result.reasonName) : 'N/A'%></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.contact.details'); %></th>
+							<td><span><%-(typeof result !== typeof undefined &&  result.message) ? nl2br(result.message) : 'N/A'%></span>
+							</td>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('Admin Reply'); %></th>
+							<td><span><%-(typeof result !== typeof undefined &&  result.reply) ? nl2br(result.reply) : 'N/A'%></span>
+							</td>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td><span class="setDateTimeFormat"
+									data-date-time="<%= (typeof result !== typeof undefined &&  result.created) ? result.created : 'N/A';%>"></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		
+		<%
+		consoleLog(result);
+		if(result.is_reply == 0)
+		{
+		%>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('Reply'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						
+					</ul>
+				</div>
+				<div class="body">
+					<form id="contact_reply"  action="<%= WEBSITE_ADMIN_URL %>contact/reply/<%= result._id %>" data-submit-btn-id="promo-add-btn-id" method="post" class="on_click_submit" role="form" enctype="mutlipart/form-data">
+						<!-- Promo Code name and code -->
+						
+						<input name="user_id" id="user_id" type="hidden" class="form-control" value="<%= result.user_id %>"/>
+						<input name="email" id="email" type="hidden" class="form-control" value="<%= result.email %>"/>
+						<input name="user_name" id="user_name" type="hidden" class="form-control" value="<%= result.full_name %>"/>
+						<div class="row clearfix validity_type_fields">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="coupons_count" class="control-label"><%= __('Reply Message'); %><span class="required"> *</span> :</label>
+										<textarea rows="4"  id="reply" class="form-control no-resize"  name="reply"></textarea>
+									</div>
+									<span id="reply_error" class="error"></span>
+								</div>
+							</div>
+										
+						</div>
+						
+	                    			
+						<button type="button" id="promo-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+					
+					</form>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+		<% 
+		}
+		%>
+		
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+			
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('contact_reply',function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>

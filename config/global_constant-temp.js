@@ -1,0 +1,1 @@
+export const FORGOT_EMAIL_OPTION  =	"email";

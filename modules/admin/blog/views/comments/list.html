@@ -1,0 +1,282 @@
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<!-- Search by comment -->
+								<div class="col-md-8">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_1"  onkeyup="searchDatatable(1)" placeholder="<%= __("admin.block.search_by_comment"); %>">
+
+										</div>
+									</div>
+								</div>
+								<!-- Search by Status -->
+								<div class="col-md-4">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick search_by_status" id="column_filter_status" name="status">
+												<option value=""><%=__("admin.user.search_by_status");%></option>
+												<%
+													if(typeof GLOBAL_STATUS_SEARCH_DROPDOWN!== typeof undefined && GLOBAL_STATUS_SEARCH_DROPDOWN.length > 0){
+														GLOBAL_STATUS_SEARCH_DROPDOWN.map(searchStatus=>{
+															%>
+															<option value="<%=searchStatus.status_id%>"><%=searchStatus.status_name%></option>
+													<% 	});
+												} %>
+											</select>
+											<input class="form-control hide" value="" id="status_search" type="text">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.blog.comments_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">						
+						<li>
+							<a href="<%=admin_list_url%>/comments/add" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.blog.add_comment"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="5%"><%= __("admin.system.sno"); %></th>
+								<th width="15%"><%= __("admin.blog.email"); %></th>
+								<th width="15%"><%= __("admin.blog.comment"); %></th>
+								<th width="15%"><%= __("admin.blogcomment.blog_title"); %></th>
+								<th width="15%"><%= __("admin.blog.author"); %></th>
+								<th width="15%"><%= __("admin.blog.admin_comment"); %></th>
+								<th width="5%"><%= __("admin.system.status"); %></th>
+								<th width="15%"><%= __("admin.system.modified"); %></th>
+								<th width="10%"><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Gemexi reply on comment -->
+<div class="modal fade" id="reply_on_comment" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<h4 class="modal-title" id="largeModalLabel"><%= __('admin.blog.reply'); %></h4>						
+			</div>
+			<hr/>
+			<div class="modal-body">						
+				<div class="body">	
+					<form id="blog-comment-reply" action="<%= admin_list_url%>/comments/replied_on_comment" method="post" class="on_click_submit" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<input type="hidden" name="comment_id" id="comment_id" value=""/>
+								<div class="form-group">
+									<div class="form-line">
+										<label for="blog_reply_on_comment" class="control-label">
+											<%= __("admin.blog.comment"); %>
+											<span class="required"> *</span> :</label>
+										<textarea name="comment" id="comment" class="form-control"></textarea>
+									</div>
+									<span id="comment_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+					</form>
+					<hr/>
+					<button type="button" id="reply-comment-btn-id" class="btn bg-pink btn-sm waves-effect no_hover btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+				<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="no_hover btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+				<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button>
+				</div>
+			</div>
+		</div>				
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	
+	<script type="text/javascript">		
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"order"		: 	[[ 7, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"orderable"		:   false,
+						//"searchable"	: 	false,	
+						"data": "id",
+						render: function (data, type, row, meta) {
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},
+					{ 
+						"data"		: 'email',
+						"orderable"	:   false, 
+					},
+					{ 
+						"data"		: 'comment',
+						"orderable"	:   false, 
+					},
+					{ 
+						"data"		: 'blogdetails',
+						"orderable"	:   false, 
+					},
+					{ 
+						"data"		: {},
+						"orderable"		:   false,
+						"render" 	: 	function(result){
+							return (result.userdetails)	?	result.userdetails	:	result.name ;
+						}
+					},
+					{ 
+						"data"		: {},
+						"orderable"	:   false,
+						"render" 	: 	function(result){
+							return (result.replied_comment)	?	result.replied_comment.comment	:	'N/A' ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,					
+						"render": function(result){
+							var status 	= 	(result && result.status)	?	result.status	:"";
+							
+							/** Active Status **/
+							var statusTab	 = 	(status == <%=ACTIVE%>)  		? 	'<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.deactive")%></span>';
+							statusTab		+=	'<br/>';
+
+							return statusTab;
+						}
+					},
+					{
+						"data"			: 	'modified',
+						"searchable"	: 	false,
+						"render" 		: 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id		=	(result._id)	?	result._id		:"";
+							var status	=	(result.status)	?	result.status	:"<%=DEACTIVE%>";
+							var repliedComment		=	(result.replied_comment && Object.keys(result.replied_comment).length>0)	?	'hide'	:"";
+							var replyOnUserComment 	=	"replyOnBlogComment('"+id+"', '"+repliedComment+"')";
+							
+							var statusTitle =	(status == <%= DEACTIVE %>) ?  	"<%= __('admin.blogcomment.click_to_activate'); %>"  : "<%= __('admin.blogcomment.click_to_deactivate'); %>" ;
+							var statusIcon  =	(status == <%= DEACTIVE %>) ?	"done"	: "block";
+							var statusClass  =	(status == <%= DEACTIVE %>) ?	"green"	: "orange";
+							
+							return '<a href="<%=admin_list_url%>/comments/edit/'+result._id+'" class="btn bg-teal btn-sm waves-effect" title="Edit" data-toggle="tooltip"><i class="material-icons font-14">mode_edit</i></a> '+
+							
+							'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/comments/update_comment_status/'+id+'/'+status+'/<%=ACTIVE_INACTIVE_STATUS%>" class="btn bg-'+statusClass+' btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.zodiac.do_you_want_to_change_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusTitle+'" data-toggle="tooltip">'+
+								'<i class="material-icons font-14">'+statusIcon+'</i>'+
+							'</a> '+
+							
+							'<a href="javascript:void(0)" onclick="'+replyOnUserComment+'" class="btn bg-pink btn-sm waves-effect '+repliedComment+'" title="Reply" data-toggle="tooltip"><i class="material-icons font-14">reply</i></a> ';
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>/comments",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.status_search	= 	$('#status_search').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		
+		/**
+		* Javascript function to update reply on comment
+		*
+		* @param  reviewId as social review id
+		* @param  shipping as shipping status of review
+		*
+		* @return void
+		*/
+		function replyOnBlogComment(commentId,reply){
+			$('#reply_on_comment').modal('show');
+			$('#comment_id').val(commentId);
+		}//end replyOnBlogComment()
+		
+		
+		/**
+		 * Function to submit form
+		 */
+		$(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			ajax_submit("blog-comment-reply",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+		
+		/** Search by status*/
+		$("#column_filter_status").change(function(){
+			var selectBoxValue = $(this).val();
+			$("#status_search").val(selectBoxValue);
+			dataTable.draw();
+		});
+		
+		
+	</script>

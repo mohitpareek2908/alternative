@@ -1,0 +1,55 @@
+ <!-- <section class="page-header">
+            <div class="container">
+               
+                
+            </div>
+        </section>  -->
+        
+        <div class="">
+         <!-- <section class="cta-one" id="creative">
+            <div class="container">
+              
+                <div class="row justify-content-end">
+                    <div class="col-lg-12">
+                        <div class="cta-one__content">
+                             <h2><%- (result.name) ? result.name : "" %> </h2>
+                          	<%- (result.body) ? result.body : "" %>
+                         
+                           
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        <section  class="thank-you-page">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-7">
+                        <div class="welcome-intro error-area text-center">
+                            <div><ul class="list-unstyled thm-breadcrumb">
+                                <li><a href="<%= WEBSITE_URL %>">Home</a></li>
+                                <li class="activepage"><span><%- (result.name) ? result.name : "" %></span></li>
+                            </ul></div>
+                            <figure><img src="<%=WEBSITE_IMG_URL%>checkmark.svg" alt="Img"></figure>
+                            <h1 class="text-white"><%- (result.name) ? result.name : "" %></h1>
+                            <p class="text-white my-4"><%- (result.body) ? result.body : "" %></p>
+                            <a href="<%=WEBSITE_URL%>" class="thm-btn main-nav__btn">Go to Homepage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            
+            
+        
+        
+		<%-       include("../../elements/newsletter.html") %>
+
+            
+            
+            </div>
+
+
+
+

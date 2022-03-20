@@ -1,0 +1,148 @@
+ <section class="page-header">
+            <div class="container">
+                <h2><%- __("front.navigaton.about_us");%> </h2>
+                <ul class="list-unstyled thm-breadcrumb">
+                    <li><a href="<%= WEBSITE_URL %>">Home</a></li>
+                    <li class="activepage"><span>About Us</span></li>
+                </ul><!-- /.list-unstyled -->
+            </div><!-- /.container -->
+        </section><!-- /.page-header -->
+        
+        <div class="about-section">
+         <section class="cta-one" id="creative">
+            <div class="container">
+                <div class="cta-one__moc wow fadeInLeft" data-wow-duration="1500ms">
+                    <img src="<%=WEBSITE_IMG_URL%>/resources/cta-1-moc-1.png" class="cta-one__moc-img" alt="">
+                </div><!-- /.cta-one__moc -->
+                <div class="row justify-content-end">
+                    <div class="col-lg-6">
+                        <div class="cta-one__content">
+                          	<% if(about_us_intro && Object.keys(about_us_intro).length > 0){ %>
+								<%- about_us_intro.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %> 
+                         
+                           
+                            <!-- /.thm-btn cta-one__btn -->
+                        </div><!-- /.cta-one__content -->
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.cta-one -->
+            
+			<section class="cta-two strengthbox " id="rewards">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="cta-two__content">
+                            <% if(about_us_know_this_first && Object.keys(about_us_know_this_first).length > 0){ %>
+								<%- about_us_know_this_first.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %> 
+                         
+						 <ul class="aboutinfo-list">
+						 <li>
+						 <figure> <img src="<%=WEBSITE_IMG_URL%>/icon-image2.png" alt="image"></figure>
+						 <strong><%- __("front.about_us.know_this_heading_1");%></strong>
+						 </li>
+						  <li><figure> <img src="<%=WEBSITE_IMG_URL%>/icon-image3.png" alt="image"></figure>
+						 <strong><%- __("front.about_us.know_this_heading_2");%></strong></li>
+						   <li><figure> <img src="<%=WEBSITE_IMG_URL%>/icon-image1.png" alt="image"></figure>
+						 <strong><%- __("front.about_us.know_this_heading_3");%></strong></li>
+						 
+						 
+						 </ul>
+						 
+                            <!-- /.thm-btn cta-two__btn -->
+                        </div><!-- /.cta-two__content -->
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-lg-6 ">
+					<div class="testimonials-one__image fadeInRight clearfix animated" data-wow-duration="1500ms" >
+                                            <img src="<%=WEBSITE_IMG_URL%>/resources/post-slider3.png" alt="Awesome Image">
+                                        </div>
+					
+					
+                   
+                        
+                       
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
+			
+			
+			
+			
+			
+			
+			
+			
+            <div class="vision_mission">
+  <div class="container">
+    <ul class="vision_mission_list">
+      <li>
+        <div class="visioncontent wow fadeIn">
+          <figure><img src="<%=WEBSITE_IMG_URL%>/vision_img.jpg" alt="image"></figure>
+          <div class="vision_txt">
+					  <% if(about_us_vision && Object.keys(about_us_vision).length > 0){ %>
+								<%- about_us_vision.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %> 
+			</div>
+        </div>
+      </li>
+      <li>
+        <div class="visioncontent  wow fadeIn">
+          <figure><img src="<%=WEBSITE_IMG_URL%>/mission_img.jpg" alt="image"></figure>
+          <div class="vision_txt">
+				 <% if(about_us_mission && Object.keys(about_us_mission).length > 0){ %>
+								<%- about_us_mission.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %> 
+			</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+            
+
+
+
+
+ <%-       include("../../elements/testimonials.html") %>
+
+    
+        <section class="team-one" id="team">
+
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/team-1-bg-1-1.png" class="team-one__bg-shape-1" alt="">
+            <img src="<%=WEBSITE_IMG_URL%>/shapes/team-1-bg-1-2.png" class="team-one__bg-shape-2" alt="">
+            <div class="container">
+                <div class="block-title text-center">
+                    <p><%- __("front.about_us.team_heading");%></p>
+                    <h3><%- __("front.about_us.team_sub_heading");%></h3>
+                </div><!-- /.block-title text-center -->
+                <div class="row">
+                   <% if(about_us_team && Object.keys(about_us_team).length > 0){ %>
+								<%- about_us_team.description %>
+							<% }else{ %>
+								<%= __("front.global.no_record_found"); %>
+							<% 	} %> 
+                    
+                   
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /.team-one -->  
+            
+            
+         <%-       include("../../elements/get_an_app.html") %>
+		<%-       include("../../elements/newsletter.html") %>
+
+            
+            
+            </div>
+
